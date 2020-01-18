@@ -5,6 +5,7 @@
       <change afterPath="$PROJECT_DIR$/Recyclops/app/src/main/java/com/example/recyclops/DisclaimerActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Recyclops/app/src/main/java/com/example/recyclops/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Recyclops/app/src/main/java/com/example/recyclops/MainActivity.kt" afterDir="false" />
     </list>
+
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +176,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="-6" width="1549" height="837" extended-state="6" />
+    <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
