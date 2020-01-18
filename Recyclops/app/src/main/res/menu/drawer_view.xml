@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@mipmap/ic_launcher_round"
+            android:title="Profile" />
+        <item
+            android:id="@+id/nav_wallet"
+            android:icon="@mipmap/ic_launcher_round"
+            android:title="Wallet" />
+        <item
+            android:id="@+id/nav_offer"
+            android:icon="@mipmap/ic_launcher_round"
+            android:title="Offers" />
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@mipmap/ic_launcher_round"
+            android:title="Setting" />
+    </group>
+</menu>

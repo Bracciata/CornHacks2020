@@ -25,7 +25,8 @@ import com.google.gson.reflect.TypeToken
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.widget.Toolbar
 
 
 class MainActivity : AppCompatActivity() {
@@ -75,7 +76,14 @@ class MainActivity : AppCompatActivity() {
     private fun openMain() {
         // Open camera screen
         setContentView(R.layout.activity_main)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
 
+        val actionbar: ActionBar? = supportActionBar
+        actionbar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            //setHomeAsUpIndicator(R.drawable.ic_menu)
+        }
         if (allPermissionsGranted()) {
             textureView.post { startCamera() }
             textureView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
