@@ -22,6 +22,7 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import android.content.Context
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
@@ -105,8 +106,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
+        updateNavBarText()
     }
-
+    fun updateNavBarText(){
+        // Check if user is signed in and if so add their name to the text.
+        // If not then state not logged in.
+        var nameNavText: TextView = findViewById(R.id.nameNav)
+        var pointsNavText:TextView = findViewById(R.id.pointsNav)
+        var user = getSignedInUser()
+        if(user!==null){
+            // Add the user information near the nav drawer
+            nameNavText.text = "${user.firstName} ${user.lastName}"
+            pointsNavText.text = "Points: ${user.points}"
+        }
+        else{
+            // State not logged in
+            nameNavText.text = "Not signed in"
+            pointsNavText.text = "Sign in to save your storage"
+        }
+    }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // TODO: Update this
         var drawerLayout:DrawerLayout = findViewById(R.id.drawer_layout)
