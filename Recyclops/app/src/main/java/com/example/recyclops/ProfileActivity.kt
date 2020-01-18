@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import com.google.gson.Gson
 
 class ProfileActivity : AppCompatActivity() {
@@ -22,6 +23,8 @@ class ProfileActivity : AppCompatActivity() {
     private fun populateProfile() {
         setContentView(R.layout.activity_profile)
         // Populate profile
+        // Get all users
+        var listUsers:List<User> = getUsers()
         // Get the id of the signed in user
         val activeUser:User = getSignedInUser()
             populateRequestList(activeUser)
@@ -30,8 +33,14 @@ class ProfileActivity : AppCompatActivity() {
         val add_friend_button = findViewById(R.id.addFriendButton) as Button
         // Add on click listener to open camera screen.
         add_friend_button.setOnClickListener {
-            addFriend(activeUser.getId())
+            addFriend(activeUser.getId(), listUsers)
         }
+    }
+    fun getUsers():List<User>{
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val userJson = sharedPreferences.getString("users_key","{}")
+        val userList:  MutableList<User> = Gson().fromJson(userJson, Array<User>::class.java).toMutableList()
+        return userList
     }
     fun getSignedInUser(): User{
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,
@@ -62,20 +71,30 @@ class ProfileActivity : AppCompatActivity() {
         val friendIdEditText = findViewById(R.id.friendId) as EditText
         val friendId = friendIdEditText.text.toString()
         if(userId!==friendId) {
-            findPersonWithId(friendId, listOfUsers)
+            for(user in listOfUsers){
+                if(user.getId()==friendId){
+                    user.addRequest(userId)
+                    Toast.makeText(this,"Sent ${user.firstName} a friend request.",Toast.LENGTH_LONG)
+                    // Save users to add request
+                    updateUsers(listOfUsers)
+                    return
+                }
+            }
         }else{
             // They tried to add themselves as a friend. Sad.
         }
-    }
-    private fun populateRequestList(activeUser: User){
+        Toast.makeText(this,"Could not find a user with the id: $friendId.",Toast.LENGTH_LONG)
 
     }
-    private fun findPersonWithId(id:String){
-        // Try to find user from list of users
-        // TODO: add search through users
-        // TODO: add toast as to if user was found
-        // If found say sent friend request
-        // If not found say user with that id could not be found
+    private fun updateUsers(users: List<User>){
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+        val usersJson = Gson().toJson(users)
+        editor.putString("users_key",usersJson)
+    }
+
+    private fun populateRequestList(activeUser: User){
+
     }
     private fun acceptFriendRequest(){
 

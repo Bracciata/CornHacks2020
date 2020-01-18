@@ -13,7 +13,7 @@ class User(val fName:String, var lName:String,val emailAdd:String,var passwordHa
     var userCreationTime:Date=  Date()
     var  redemptionHistory: List<Redemption> = listOf<Redemption>()
     private var userId: String = userIdentification
-    var friendRequestsIncomingUserIds: List<String> = listOf<String>()
+    var friendRequestsIncomingUserIds: MutableList<String> = mutableListOf<String>()
 
 
     fun getId():String{
@@ -30,5 +30,8 @@ class User(val fName:String, var lName:String,val emailAdd:String,var passwordHa
     }
     fun changePoints(numberOfPoints:Int){
         points +=numberOfPoints
+    }
+    fun addRequest(id:String){
+        friendRequestsIncomingUserIds.add(id)
     }
 }
