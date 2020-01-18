@@ -33,29 +33,38 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Begin with Pokemon Go esque disclaimer on recycling
+        openDisclaimer()
+    }
+
+    private fun openDisclaimer() {
+        // Begin with Pokemon Go esque disclaimer on recycling
         setContentView(R.layout.activity_main_disclaimer)
         val begin_button = findViewById(R.id.openCameraButton) as Button
         // Add on click listener to open camera screen.
         begin_button.setOnClickListener {
-            // Open camera screen
-            setContentView(R.layout.activity_main)
-
-            if (allPermissionsGranted()) {
-                textureView.post { startCamera() }
-                textureView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
-                    updateTransform()
-                }
-            } else {
-                ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
-            }
-
-            tfLiteClassifier
-                .initialize()
-                .addOnSuccessListener { }
-                .addOnFailureListener { e -> Log.e(TAG, "Error in setting up the classifier.", e) }        }
-
-
+            openMain()
+        }
     }
+
+    private fun openMain() {
+        // Open camera screen
+        setContentView(R.layout.activity_main)
+
+        if (allPermissionsGranted()) {
+            textureView.post { startCamera() }
+            textureView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+                updateTransform()
+            }
+        } else {
+            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
+        }
+
+        tfLiteClassifier
+            .initialize()
+            .addOnSuccessListener { }
+            .addOnFailureListener { e -> Log.e(TAG, "Error in setting up the classifier.", e) }
+    }
+
 
     private fun startCamera() {
         val metrics = DisplayMetrics().also { textureView.display.getRealMetrics(it) }
@@ -96,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                 tfLiteClassifier
                     .classifyAsync(bitmap)
                     .addOnSuccessListener { resultText -> predictedTextView?.text = resultText }
-                    .addOnFailureListener { error ->  }
+                    .addOnFailureListener { error -> }
 
             }
         CameraX.bindToLifecycle(this, preview, analyzerUseCase)
