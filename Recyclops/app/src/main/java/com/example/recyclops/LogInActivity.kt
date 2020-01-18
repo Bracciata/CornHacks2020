@@ -28,15 +28,12 @@ class LogInActivity : AppCompatActivity() {
         // set on-click listener
         signInButton.setOnClickListener {
             attemptSignIn(listOfUsers)
-
         }
         val registerButton = findViewById(R.id.registerButton) as Button
         // set on-click listener
         registerButton.setOnClickListener {
             openRegister()
-
         }
-
     }
     private fun getUsers():List<User>{
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,
@@ -46,10 +43,12 @@ class LogInActivity : AppCompatActivity() {
         return userList
     }
     private fun setSignedInUser(userFound: User){
-
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+        val usersJson = Gson().toJson(userFound)
+        editor.putString("active_user_key",usersJson)
     }
     private fun attemptSignIn(listOfUsers:List<User>){
-        //TODO: Add signing in verification.
         val emailEditText = findViewById(R.id.userEmailEditText) as EditText
         val passwordEditText = findViewById(R.id.userEmailEditText) as EditText
         val password = passwordEditText.text.toString()
@@ -63,6 +62,7 @@ class LogInActivity : AppCompatActivity() {
                     var firstName = user.firstName
                     Toast.makeText(this, "Hello, $firstName.", Toast.LENGTH_SHORT).show()
                     // Open profile
+                    setSignedInUser(user)
                     openProfile()
                 }
                 break
@@ -71,17 +71,18 @@ class LogInActivity : AppCompatActivity() {
         }
         // Failed to find correct user
         // Create toast
-        Toast.makeText(this, "Sorry we could not verify that information is correct. Try again!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Sorry we could not find an account with those credentials. Try again!", Toast.LENGTH_SHORT).show()
 
     }
 
     private fun openProfile(){
-        // Upon success signin in open the profile.
+        // Upon success sign in in open the profile.
         val intent = Intent(this, ProfileActivity::class.java)
         // start your next activity
         startActivity(intent)
     }
     private fun openRegister(){
+        // Opens the registration screen.
         val intent = Intent(this, RegisterActivity::class.java)
         // start your next activity
         startActivity(intent)

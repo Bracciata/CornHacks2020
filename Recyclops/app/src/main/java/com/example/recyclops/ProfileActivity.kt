@@ -43,6 +43,11 @@ class ProfileActivity : AppCompatActivity() {
 
     fun logout(){
         // Reset signed in user and open main.
+            val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+            val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+            val emptyUser = "{}"
+            editor.putString("active_user_key", emptyUser)
+
     }
 
     private fun populateFriendsList(activeUser: User){
@@ -53,10 +58,14 @@ class ProfileActivity : AppCompatActivity() {
         // start your next activity
         startActivity(intent)
     }
-    private fun addFriend(userId:String){
+    private fun addFriend(userId:String, listOfUsers:List<User>){
         val friendIdEditText = findViewById(R.id.friendId) as EditText
         val friendId = friendIdEditText.text.toString()
-        findPersonWithId(friendId)
+        if(userId!==friendId) {
+            findPersonWithId(friendId, listOfUsers)
+        }else{
+            // They tried to add themselves as a friend. Sad.
+        }
     }
     private fun populateRequestList(activeUser: User){
 
