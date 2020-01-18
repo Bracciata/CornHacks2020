@@ -31,21 +31,28 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        // Begin with Pokemon Go esque disclaimer on recycling
+        setContentView(R.layout.activity_main_disclaimer)
+        val begin_button = findViewById(R.id.openCameraButton) as Button
+        // Add on click listener to open camera screen.
+        begin_button.setOnClickListener {
+            // Open camera screen
+            setContentView(R.layout.activity_main)
 
-        if (allPermissionsGranted()) {
-            textureView.post { startCamera() }
-            textureView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
-                updateTransform()
+            if (allPermissionsGranted()) {
+                textureView.post { startCamera() }
+                textureView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+                    updateTransform()
+                }
+            } else {
+                ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
             }
-        } else {
-            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
-        }
 
-        tfLiteClassifier
-            .initialize()
-            .addOnSuccessListener { }
-            .addOnFailureListener { e -> Log.e(TAG, "Error in setting up the classifier.", e) }
+            tfLiteClassifier
+                .initialize()
+                .addOnSuccessListener { }
+                .addOnFailureListener { e -> Log.e(TAG, "Error in setting up the classifier.", e) }        }
+
 
     }
 
