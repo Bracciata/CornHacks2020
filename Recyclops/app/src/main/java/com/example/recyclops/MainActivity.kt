@@ -17,7 +17,6 @@ import android.widget.Toast
 import androidx.camera.core.*
 import androidx.core.app.ActivityCompat
 import java.io.ByteArrayOutputStream
-import android.widget.Button
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,19 +31,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Begin with Pokemon Go esque disclaimer on recycling
-        openDisclaimer()
+        openMain()
     }
 
-    private fun openDisclaimer() {
-        // Begin with Pokemon Go esque disclaimer on recycling
-        setContentView(R.layout.activity_main_disclaimer)
-        val begin_button = findViewById(R.id.openCameraButton) as Button
-        // Add on click listener to open camera screen.
-        begin_button.setOnClickListener {
-            openMain()
-        }
-    }
 
     private fun openMain() {
         // Open camera screen

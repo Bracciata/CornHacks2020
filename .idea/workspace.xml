@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4aadc63-fb4a-4596-82e7-63781cd2155c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Recyclops/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Recyclops/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Recyclops/app/src/main/java/com/example/recyclops/DisclaimerActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Recyclops/app/src/main/java/com/example/recyclops/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Recyclops/app/src/main/java/com/example/recyclops/MainActivity.kt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
