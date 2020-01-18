@@ -17,6 +17,10 @@ import android.widget.Toast
 import androidx.camera.core.*
 import androidx.core.app.ActivityCompat
 import java.io.ByteArrayOutputStream
+import android.content.Intent
+import android.content.SharedPreferences
+import com.google.gson.Gson
+import android.content.Context
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,9 +32,44 @@ class MainActivity : AppCompatActivity() {
     private val REQUIRED_PERMISSIONS = arrayOf("android.permission.CAMERA")
 
     private var tfLiteClassifier: TFLiteClassifier = TFLiteClassifier(this@MainActivity)
+    private val sharedPrefFile = "kotlinsharedpreference"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        openMain()
+        val rewards = createRewards()
+        val users = createUsers(rewards)
+    }
+    private fun createRewards():List<Reward>{
+        var rewards =  mutableListOf<Reward>()
+        // If sale price is equal to price or greater than it is considered not on sale.
+        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(1221,234, "Amazon 1000 Dollar Gift Card"))
+        rewards.add(Reward(40,10, "Reusable Water Bottle"))
+        rewards.add(Reward(8,8, "Metal Straw"))
+        rewards.add(Reward(10,1, "Donate A Tree"))
+        updateRewards(rewards)
+        return rewards
+    }
+    private fun createUsers(rewards: List<Reward>):List<User>{
+        var users =  mutableListOf<User>()
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Dick","Carson","DickC@unl.edu","Acting2019","2"))
+        users[0].addFriend(users[1])
+        users[0].redeemPrize(rewards[0])
+        users[0].redeemPrize(rewards[1])
+        users[0].redeemPrize(rewards[3])
+        users.add(User("Alexis","Maas","MaasA@unl.edu","Acting2019","3"))
+        users[0].addRequest(users[2].getId())
+        // This user wil be added as a friend when demoing
+        users.add(User("FriendFirstNameToAdd","MEEEEE","Faker@unl.edu","Acting2019","4"))
+
+        updateUsers(users)
+        return users
+    }
+
+    private fun openMain() {
+        // Open camera screen
         setContentView(R.layout.activity_main)
 
         if (allPermissionsGranted()) {
@@ -46,8 +85,8 @@ class MainActivity : AppCompatActivity() {
             .initialize()
             .addOnSuccessListener { }
             .addOnFailureListener { e -> Log.e(TAG, "Error in setting up the classifier.", e) }
-
     }
+
 
     private fun startCamera() {
         val metrics = DisplayMetrics().also { textureView.display.getRealMetrics(it) }
@@ -88,7 +127,7 @@ class MainActivity : AppCompatActivity() {
                 tfLiteClassifier
                     .classifyAsync(bitmap)
                     .addOnSuccessListener { resultText -> predictedTextView?.text = resultText }
-                    .addOnFailureListener { error ->  }
+                    .addOnFailureListener { error -> }
 
             }
         CameraX.bindToLifecycle(this, preview, analyzerUseCase)
@@ -131,7 +170,31 @@ class MainActivity : AppCompatActivity() {
         matrix.postRotate(-rotationDegrees.toFloat(), centerX, centerY)
         textureView.setTransform(matrix)
     }
+    private fun openProfile(){
+        // Check if logged in
+        val loggedIn = false; // TODO: Implement this
+        if(loggedIn){
+            openProfileConfirmed()
+        }else{
+            openLogIn()
+        }
+    }
+    private fun openProfileConfirmed(){
+        // val intent = Intent(this, Profile::class.java)
+        // start your next activity
+        startActivity(intent)
+    }
+    private fun openLogIn(){
+        val intent = Intent(this, LogInActivity::class.java)
+        // start your next activity
+        startActivity(intent)
 
+    }
+    private fun openGuide(){
+        val intent = Intent(this, GuideActivity::class.java)
+        // start your next activity
+        startActivity(intent)
+    }
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -162,6 +225,39 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
+    fun updateRewards(rewards:List<Reward>){
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+        val rewardsJson = Gson().toJson(rewards)
+        editor.putString("rewards_key",rewardsJson)
+    }
+    fun getRewards():List<Reward>{
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val rewardsJson = sharedPreferences.getString("rewards_key","{}")
+        val rewardList:  MutableList<Reward> = Gson().fromJson(rewardsJson, Array<Reward>::class.java).toMutableList()
+        return rewardList
+
+    }
+    fun updateUsers(users:List<User>){
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+        val usersJson = Gson().toJson(users)
+        editor.putString("users_key",usersJson)
+    }
+    fun getUsers():List<User>{
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val userJson = sharedPreferences.getString("users_key","{}")
+        val userList:  MutableList<User> = Gson().fromJson(userJson, Array<User>::class.java).toMutableList()
+        return userList
+    }
+    fun getSignedInUser(): User{
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val userJson = sharedPreferences.getString("active_user_key","{}")
+        val user :  User = Gson().fromJson(userJson, User::class.java)
+        return user
+    }
+
+
 
     override fun onDestroy() {
         tfLiteClassifier.close()
