@@ -1,5 +1,6 @@
 package com.example.recyclops
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -14,23 +15,31 @@ class LogInActivity : AppCompatActivity() {
     private fun setupLogIn(){
         setContentView(R.layout.activity_log_in)
         // get reference to button
-        val sign_in_button = findViewById(R.id.signInButton) as Button
+        val signInButton = findViewById(R.id.signInButton) as Button
         // set on-click listener
-        sign_in_button.setOnClickListener {
+        signInButton.setOnClickListener {
             attemptSignIn()
 
         }
-        val register_button = findViewById(R.id.registerButton) as Button
+        val registerButton = findViewById(R.id.registerButton) as Button
         // set on-click listener
-        register_button.setOnClickListener {
+        registerButton.setOnClickListener {
             openRegister()
 
         }
     }
     private fun attemptSignIn(){
-
+        //TODO: Add signing in verification.
+    }
+    private fun openProfile(){
+        // Upon success signin in open the profile.
+        val intent = Intent(this, ProfileActivity::class.java)
+        // start your next activity
+        startActivity(intent)
     }
     private fun openRegister(){
-
+        val intent = Intent(this, RegisterActivity::class.java)
+        // start your next activity
+        startActivity(intent)
     }
 }

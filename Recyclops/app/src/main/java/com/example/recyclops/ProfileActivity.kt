@@ -9,7 +9,7 @@ import android.widget.Button
 
 class ProfileActivity : AppCompatActivity() {
 
-    // todo: Add back button
+    // TODO: Add back button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         populateProfile()
