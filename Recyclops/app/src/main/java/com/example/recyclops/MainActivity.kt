@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.camera.core.*
 import androidx.core.app.ActivityCompat
 import java.io.ByteArrayOutputStream
+import android.widget.Button
 
 
 class MainActivity : AppCompatActivity() {
