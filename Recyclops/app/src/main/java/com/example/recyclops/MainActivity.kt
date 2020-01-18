@@ -18,7 +18,8 @@ import androidx.camera.core.*
 import androidx.core.app.ActivityCompat
 import java.io.ByteArrayOutputStream
 import android.content.Intent
-
+import android.content.SharedPreferences
+import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,6 +47,9 @@ class MainActivity : AppCompatActivity() {
         rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
         rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
         rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+        val rewardsJson = Gson().toJson(rewards)
+        editor.putString("rewards_key",rewardsJson)
     }
     private fun createUsers(rewards: List<Reward>):List<User>{
         var users =  mutableListOf<User>()
@@ -216,7 +220,17 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
+    fun updateRewards(rewards:List<Reward>){
 
+    }
+    fun getRewards(rewards:List<Reward>){
+
+    }
+    fun updateUsers(users:List<User>){
+
+    }    fun getUsers(rewards:List<Reward>){
+
+    }
 
     override fun onDestroy() {
         tfLiteClassifier.close()
