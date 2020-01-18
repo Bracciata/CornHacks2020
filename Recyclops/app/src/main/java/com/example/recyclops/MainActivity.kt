@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.camera.core.*
 import androidx.core.app.ActivityCompat
 import java.io.ByteArrayOutputStream
+import android.content.Intent
 
 
 class MainActivity : AppCompatActivity() {
@@ -137,7 +138,31 @@ class MainActivity : AppCompatActivity() {
         matrix.postRotate(-rotationDegrees.toFloat(), centerX, centerY)
         textureView.setTransform(matrix)
     }
+    private fun openProfile(){
+        // Check if logged in
+        val loggedIn = false; // TODO: Implement this
+        if(loggedIn){
+            openProfileConfirmed()
+        }else{
+            openLogIn()
+        }
+    }
+    private fun openProfileConfirmed(){
+        // val intent = Intent(this, Profile::class.java)
+        // start your next activity
+        startActivity(intent)
+    }
+    private fun openLogIn(){
+        val intent = Intent(this, LogInActivity::class.java)
+        // start your next activity
+        startActivity(intent)
 
+    }
+    private fun openGuide(){
+        val intent = Intent(this, GuideActivity::class.java)
+        // start your next activity
+        startActivity(intent)
+    }
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -168,6 +193,7 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
+
 
     override fun onDestroy() {
         tfLiteClassifier.close()
