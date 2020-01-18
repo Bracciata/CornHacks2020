@@ -18,6 +18,14 @@ import androidx.camera.core.*
 import androidx.core.app.ActivityCompat
 import java.io.ByteArrayOutputStream
 import android.content.Intent
+import android.content.SharedPreferences
+import com.google.gson.Gson
+import android.content.Context
+import com.google.gson.reflect.TypeToken
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,12 +37,40 @@ class MainActivity : AppCompatActivity() {
     private val REQUIRED_PERMISSIONS = arrayOf("android.permission.CAMERA")
 
     private var tfLiteClassifier: TFLiteClassifier = TFLiteClassifier(this@MainActivity)
+    private val sharedPrefFile = "kotlinsharedpreference"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         openMain()
+        val rewards = createRewards()
+        val users = createUsers(rewards)
     }
-
+    private fun createRewards():List<Reward>{
+        var rewards =  mutableListOf<Reward>()
+        // If sale price is equal to price or greater than it is considered not on sale.
+        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        updateRewards(rewards)
+        return rewards
+    }
+    private fun createUsers(rewards: List<Reward>):List<User>{
+        var users =  mutableListOf<User>()
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        updateUsers(users)
+        return users
+    }
 
     private fun openMain() {
         // Open camera screen
@@ -193,6 +229,38 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
+    fun updateRewards(rewards:List<Reward>){
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+        val rewardsJson = Gson().toJson(rewards)
+        editor.putString("rewards_key",rewardsJson)
+    }
+    fun getRewards():List<Reward>{
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val rewardsJson = sharedPreferences.getString("rewards_key","{}")
+        val rewardList:  MutableList<Reward> = Gson().fromJson(rewardsJson, Array<Reward>::class.java).toMutableList()
+        return rewardList
+
+    }
+    fun updateUsers(users:List<User>){
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+        val usersJson = Gson().toJson(users)
+        editor.putString("users_key",usersJson)
+    }
+    fun getUsers():List<User>{
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val userJson = sharedPreferences.getString("users_key","{}")
+        val userList:  MutableList<User> = Gson().fromJson(userJson, Array<User>::class.java).toMutableList()
+        return userList
+    }
+    fun getSignedInUser(): User{
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val userJson = sharedPreferences.getString("active_user_key","{}")
+        val user :  User = Gson().fromJson(userJson, User::class.java)
+        return user
+    }
+
 
 
     override fun onDestroy() {

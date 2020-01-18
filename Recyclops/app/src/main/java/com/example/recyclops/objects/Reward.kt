@@ -2,9 +2,9 @@ package com.example.recyclops;
 
 import java.util.Date;
 
-public class Reward {
-    var cost:Int=0
-    var saleCost:Int=0
-    var title:String=""
+public class Reward (val costValue:Int, var saleCostValue:Int,val titleValue:String){
+    var cost:Int=costValue
+    var saleCost:Int=saleCostValue
+    var title:String=titleValue
     var timeAdded:Date= Date()
 }
