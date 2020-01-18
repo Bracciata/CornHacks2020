@@ -13,4 +13,7 @@ class GuideActivity : AppCompatActivity() {
     private fun openGuide(){
         
     }
+    private fun returnToMain(){
+        
+    }
 }

@@ -158,7 +158,11 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
 
     }
-
+    private fun openGuide(){
+        val intent = Intent(this, GuideActivity::class.java)
+        // start your next activity
+        startActivity(intent)
+    }
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,

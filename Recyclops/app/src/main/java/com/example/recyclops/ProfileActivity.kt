@@ -18,4 +18,9 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
         // Populate profile
     }
+    private fun returnToMain(){
+        val intent = Intent(this, MainActivity::class.java)
+        // start your next activity
+        startActivity(intent)
+    }
 }
