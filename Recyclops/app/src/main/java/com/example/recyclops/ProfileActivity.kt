@@ -34,7 +34,6 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
     private fun getSignedInUser(): User{
-
     }
     private fun getListOfFriends(user: User): List<User>{
         // Use logged in user's id to get their list of friends.

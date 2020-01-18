@@ -33,8 +33,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         openMain()
+        val rewards = createRewards()
+        val users = createUsers(rewards)
     }
+    private fun createRewards():List<Reward>{
 
+    }
+    private fun createUsers(rewards: List<Reward>):List<User>{
+        RunningStorage.
+
+    }
 
     private fun openMain() {
         // Open camera screen
