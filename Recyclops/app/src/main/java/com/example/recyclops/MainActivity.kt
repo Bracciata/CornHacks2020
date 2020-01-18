@@ -37,11 +37,26 @@ class MainActivity : AppCompatActivity() {
         val users = createUsers(rewards)
     }
     private fun createRewards():List<Reward>{
-
+        var rewards =  mutableListOf<Reward>()
+        // If sale price is equal to price or greater than it is considered not on sale.
+        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
     }
     private fun createUsers(rewards: List<Reward>):List<User>{
-        RunningStorage.
-
+        var users =  mutableListOf<User>()
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
     }
 
     private fun openMain() {
