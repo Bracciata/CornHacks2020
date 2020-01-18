@@ -6,9 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import com.google.gson.Gson
 
 class ProfileActivity : AppCompatActivity() {
@@ -23,24 +21,13 @@ class ProfileActivity : AppCompatActivity() {
     private fun populateProfile() {
         setContentView(R.layout.activity_profile)
         // Populate profile
-        // Get all users
-        var listUsers:List<User> = getUsers()
         // Get the id of the signed in user
         val activeUser:User = getSignedInUser()
-            populateRequestList(activeUser)
-
-            populateFriendsList(activeUser)
-        val add_friend_button = findViewById(R.id.addFriendButton) as Button
-        // Add on click listener to open camera screen.
-        add_friend_button.setOnClickListener {
-            addFriend(activeUser.getId(), listUsers)
-        }
+        populateUserInformation(activeUser)
+        populateRewardsRedemptionHistory(activeUser)
     }
-    fun getUsers():List<User>{
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-        val userJson = sharedPreferences.getString("users_key","{}")
-        val userList:  MutableList<User> = Gson().fromJson(userJson, Array<User>::class.java).toMutableList()
-        return userList
+    private fun populateUserInformation(activeUser: User){
+
     }
     fun getSignedInUser(): User{
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,
@@ -56,50 +43,26 @@ class ProfileActivity : AppCompatActivity() {
             val editor: SharedPreferences.Editor =  sharedPreferences.edit()
             val emptyUser = "{}"
             editor.putString("active_user_key", emptyUser)
+        returnToMain()
 
     }
 
-    private fun populateFriendsList(activeUser: User){
 
-    }
     private fun returnToMain(){
         val intent = Intent(this, MainActivity::class.java)
         // start your next activity
         startActivity(intent)
     }
-    private fun addFriend(userId:String, listOfUsers:List<User>){
-        val friendIdEditText = findViewById(R.id.friendId) as EditText
-        val friendId = friendIdEditText.text.toString()
-        if(userId!==friendId) {
-            for(user in listOfUsers){
-                if(user.getId()==friendId){
-                    user.addRequest(userId)
-                    Toast.makeText(this,"Sent ${user.firstName} a friend request.",Toast.LENGTH_LONG)
-                    // Save users to add request
-                    updateUsers(listOfUsers)
-                    return
-                }
-            }
-        }else{
-            // They tried to add themselves as a friend. Sad.
-        }
-        Toast.makeText(this,"Could not find a user with the id: $friendId.",Toast.LENGTH_LONG)
+   private fun populateRewardsRedemptionHistory(activeUser:User){
+       var listView = findViewById<ListView>(R.id.redemption_history_list_view)
 
-    }
-    private fun updateUsers(users: List<User>){
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
-        val usersJson = Gson().toJson(users)
-        editor.putString("users_key",usersJson)
-    }
-
-    private fun populateRequestList(activeUser: User){
-
-    }
-    private fun acceptFriendRequest(){
-
-    }
-    private fun rejectFriendRequests(){
+       val redemptions = activeUser.redemptionHistory
+       val redemptionStrings = mutableListOf<String>()
+       for(redemption in redemptions){
+           redemptionStrings.add("Bought ${redemption.rewardRedeemed.title} for ${redemption.purchaseCost} on ${redemption.redemptionTime}")
+       }
+       val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, redemptionStrings)
+       listView.adapter = adapter
 
     }
 }
