@@ -29,7 +29,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 
-
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private var lensFacing = CameraX.LensFacing.BACK
@@ -51,25 +50,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var rewards =  mutableListOf<Reward>()
         // If sale price is equal to price or greater than it is considered not on sale.
         rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
-        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
-        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
-        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
-        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
-        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
-        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(1221,234, "Amazon 1000 Dollar Gift Card"))
+        rewards.add(Reward(40,10, "Reusable Water Bottle"))
+        rewards.add(Reward(8,8, "Metal Straw"))
+        rewards.add(Reward(10,1, "Donate A Tree"))
         updateRewards(rewards)
         return rewards
     }
     private fun createUsers(rewards: List<Reward>):List<User>{
         var users =  mutableListOf<User>()
         users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
-        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
-        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
-        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
-        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
-        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
-        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
-        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Dick","Carson","DickC@unl.edu","Acting2019","2"))
+        users[0].addFriend(users[1])
+        users[0].redeemPrize(rewards[0])
+        users[0].redeemPrize(rewards[1])
+        users[0].redeemPrize(rewards[3])
+        users.add(User("Alexis","Maas","MaasA@unl.edu","Acting2019","3"))
+        users[0].addRequest(users[2].getId())
+        // This user wil be added as a friend when demoing
+        users.add(User("FriendFirstNameToAdd","MEEEEE","Faker@unl.edu","Acting2019","4"))
+
         updateUsers(users)
         return users
     }
