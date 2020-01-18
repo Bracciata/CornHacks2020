@@ -10,4 +10,7 @@ public class User {
     int points;
     Date userCreationTime;
     List<Redemption> redemptionHistory;
+    String userId;
+    List<String> friendRequestsIncomingUserIds;
+    List<String> friendRequestsOutUserIds;
 }
