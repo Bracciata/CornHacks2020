@@ -32,7 +32,7 @@ class LogInActivity : AppCompatActivity() {
         //TODO: Add signing in verification.
     }
     private fun openProfile(){
-        // Upon success signin in open the profile.
+        // Upon success signing in in open the profile.
         val intent = Intent(this, ProfileActivity::class.java)
         // start your next activity
         startActivity(intent)
