@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
         rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
         updateRewards(rewards)
+        return rewards
     }
     private fun createUsers(rewards: List<Reward>):List<User>{
         var users =  mutableListOf<User>()
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
         users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
         updateUsers(users)
+        return users
     }
 
     private fun openMain() {
@@ -252,6 +254,14 @@ class MainActivity : AppCompatActivity() {
         val userList:  MutableList<User> = Gson().fromJson(userJson, Array<User>::class.java).toMutableList()
         return userList
     }
+    fun getSignedInUser(): User{
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val userJson = sharedPreferences.getString("active_user_key","{}")
+        val user :  User = Gson().fromJson(userJson, User::class.java)
+        return user
+    }
+
+
 
     override fun onDestroy() {
         tfLiteClassifier.close()

@@ -1,15 +1,20 @@
 package com.example.recyclops
 
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import com.google.gson.Gson
 
 class ProfileActivity : AppCompatActivity() {
+    private val sharedPrefFile = "kotlinsharedpreference"
 
     // TODO: Add back button
+    // TODO: add log out button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         populateProfile()
@@ -18,27 +23,29 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
         // Populate profile
         // Get the id of the signed in user
-        User self = getSignedInUser()
-        val incomingRequestIds = getIncomingFriendRequests(self)
-        if(incomingRequestIds.isNotEmpty()){
-            populateRequestList(incomingRequestIds)
-        }
-        val friendsObjects = getListOfFriends(self)
-        if(friendsObjects.isNotEmpty()){
-            populateFriendsList(friendsObjects)
-        }
+        val activeUser:User = getSignedInUser()
+            populateRequestList(activeUser)
+
+            populateFriendsList(activeUser)
         val add_friend_button = findViewById(R.id.addFriendButton) as Button
         // Add on click listener to open camera screen.
         add_friend_button.setOnClickListener {
-            addFriend(self.getId())
+            addFriend(activeUser.getId())
         }
     }
-    private fun getSignedInUser(): User{
+    fun getSignedInUser(): User{
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,
+            Context.MODE_PRIVATE)
+        val userJson = sharedPreferences.getString("active_user_key","{}")
+        val user :  User = Gson().fromJson(userJson, User::class.java)
+        return user
     }
-    private fun getListOfFriends(user: User): List<User>{
-        // Use logged in user's id to get their list of friends.
+
+    fun logout(){
+        // Reset signed in user and open main.
     }
-    private fun populateFriendsList(friends: Array<User>){
+
+    private fun populateFriendsList(activeUser: User){
 
     }
     private fun returnToMain(){
@@ -51,7 +58,7 @@ class ProfileActivity : AppCompatActivity() {
         val friendId = friendIdEditText.text.toString()
         findPersonWithId(friendId)
     }
-    private fun populateRequestList(friendRequestIds: Array<String>){
+    private fun populateRequestList(activeUser: User){
 
     }
     private fun findPersonWithId(id:String){
@@ -66,9 +73,5 @@ class ProfileActivity : AppCompatActivity() {
     }
     private fun rejectFriendRequests(){
 
-    }
-    private fun getIncomingFriendRequests(): Array<String> {
-        val incomingRequestIds = arrayOf("hey","Here")
-        return incomingRequestIds
     }
 }
