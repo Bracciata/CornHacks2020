@@ -3,7 +3,7 @@ package com.example.recyclops;
 import java.util.Date;
 
 public class Redemption {
-    Reward rewardRedeemed;
-    int purchaseCost;
-    Date redemptionTime;
+    var rewardRedeemed:Reward = Reward();
+    var purchaseCost:Int=0
+    var redemptionTime:Date=Date()
 }
