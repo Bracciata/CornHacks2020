@@ -51,7 +51,6 @@ class TFLiteClassifier(private val context: Context) {
     private fun initializeInterpreter() {
 
 
-
         val assetManager = context.assets
         val model = loadModelFile(assetManager, "mobilenet_v1_1.0_224.tflite")
 
@@ -174,3 +173,4 @@ class TFLiteClassifier(private val context: Context) {
         private const val IMAGE_MEAN = 127.5f
         private const val IMAGE_STD = 127.5f
     }
+}
