@@ -17,24 +17,29 @@ class ProfileActivity : AppCompatActivity() {
     private fun populateProfile() {
         setContentView(R.layout.activity_profile)
         // Populate profile
-        val incomingRequestIds = getIncomingFriendRequests()
-        if(incomingRequestIds.size>0){
+        // Get the id of the signed in user
+        User self = getSignedInUser()
+        val incomingRequestIds = getIncomingFriendRequests(self)
+        if(incomingRequestIds.isNotEmpty()){
             populateRequestList(incomingRequestIds)
         }
-        val friendIds = getListOfFriends()
-        if(friendIds.size >0){
-            populateFriendsList(friendIds)
+        val friendsObjects = getListOfFriends(self)
+        if(friendsObjects.isNotEmpty()){
+            populateFriendsList(friendsObjects)
         }
         val add_friend_button = findViewById(R.id.addFriendButton) as Button
         // Add on click listener to open camera screen.
         add_friend_button.setOnClickListener {
-            addFriend()
+            addFriend(self.getId())
         }
     }
-    private fun getListOfFriends(userId:String) List<Friend>{
+    private fun getSignedInUser(): User{
+
+    }
+    private fun getListOfFriends(user: User): List<User>{
         // Use logged in user's id to get their list of friends.
     }
-    private fun populateFriendsList(friendIds: Array<String>){
+    private fun populateFriendsList(friends: Array<User>){
 
     }
     private fun returnToMain(){
