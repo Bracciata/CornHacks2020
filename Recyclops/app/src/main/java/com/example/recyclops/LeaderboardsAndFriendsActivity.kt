@@ -45,15 +45,16 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         }
     }
     private fun populateLeaderboard(activeUser: User){
-        var friends = activeUser.friends
-        Log.e("HERE",friends[0].firstName)
-        friends.sortedBy { friend -> friend.totalPoints }
-        friends.reverse()
+        var friendsList = activeUser.friends
+        friendsList.removeAll {  friend-> friend.firstName=="You"}
+        friendsList.add(User("You","","","","-10"))
+        friendsList.last().changePoints(activeUser.totalPoints)
+        friendsList.sortBy { friend -> friend.totalPoints }
+        friendsList.reverse()
         // Populate in list view.
         var stringsForLeaderboard: MutableList<String> = mutableListOf()
         var count: Int = 1
-        for(friend in friends){
-            Log.e("Hey","TOMMYS")
+        for(friend in friendsList){
             stringsForLeaderboard.add("${count}. ${friend.firstName} ${friend.lastName}(Total points: ${friend.totalPoints})")
             count += 1
         }
@@ -64,7 +65,7 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         layout.addView(listView)
         listView.setOnItemClickListener { parent, view, position, id ->
 
-            val friendToFocus = friends[position]
+            val friendToFocus = friendsList[position]
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Remove Friend?")
             builder.setMessage("Would you like to remove ${friendToFocus.firstName} ${friendToFocus.lastName}?")
