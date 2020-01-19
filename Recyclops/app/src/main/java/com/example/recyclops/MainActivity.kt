@@ -225,7 +225,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
     private fun openProfileConfirmed(){
-        // val intent = Intent(this, Profile::class.java)
+         val intent = Intent(this, ProfileActivity::class.java)
         // start your next activity
         startActivity(intent)
     }
