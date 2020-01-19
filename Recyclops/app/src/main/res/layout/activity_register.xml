@@ -45,7 +45,7 @@
     </TextView>
 
     <EditText
-        android:id="@+id/registerFirstNameEditText"
+        android:id="@+id/register_first_name_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -63,7 +63,7 @@
 </TextView>
 
     <EditText
-        android:id="@+id/registerLastNameEditText"
+        android:id="@+id/register_last_name_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -82,7 +82,7 @@
     </TextView>
 
     <EditText
-        android:id="@+id/registerEmailEditText"
+        android:id="@+id/register_email_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -102,7 +102,7 @@
     </TextView>
 
     <EditText
-        android:id="@+id/registerPasswordEditText"
+        android:id="@+id/register_password_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -111,10 +111,10 @@
         android:layout_marginRight="10dp"
         android:hint="password" />
     <Button
-        android:id="@+id/completeRegistrationButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Register" />
+        android:text="Register"
+        android:id="@+id/complete_registration_button"/>
 
 </LinearLayout>
