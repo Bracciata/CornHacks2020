@@ -25,11 +25,12 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         val activeUser = getSignedInUser()
         populateRequestList(activeUser)
         populateLeaderboard(activeUser)
-        val addFriendButton = findViewById(R.id.addFriendButton) as Button
-        // set on-click listener
+        val addFriendButton = findViewById<Button>(R.id.addFriendButton)
+        // Allow the user to add a friend when clicking the add friend button.
         addFriendButton.setOnClickListener {
             addFriend(activeUser.getId())
         }
+        // Add the back button to the toolbar.
         var toolbar : Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
