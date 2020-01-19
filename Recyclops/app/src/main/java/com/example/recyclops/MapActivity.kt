@@ -57,6 +57,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     }
+
     // actions on click menu items
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         android.R.id.home -> {

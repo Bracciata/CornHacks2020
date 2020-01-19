@@ -27,24 +27,22 @@ class LogInActivity : AppCompatActivity() {
         // Get the list of all users
         // Note the following is temporary as later on it will be based off of an online database.
         val listOfUsers: List<User> = getUsers()
-        // get reference to button
         val signInButton = findViewById<Button>(R.id.signInButton)
-        // set on-click listener
+        // Attempt signing on when the sign in button is clicked.
         signInButton.setOnClickListener {
             attemptSignIn(listOfUsers)
         }
         val registerButton = findViewById<Button>(R.id.registerButton)
-        // set on-click listener
+        // Open the registration screen when the register button is clicked.
         registerButton.setOnClickListener {
             openRegister()
         }
+        // Add the back button to the toolbar.
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
     }
 
-    // actions on click menu items
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         android.R.id.home -> {
             // Open Camera
@@ -60,11 +58,12 @@ class LogInActivity : AppCompatActivity() {
 
     private fun returnToMain() {
         val intent = Intent(this, MainActivity::class.java)
-        // start your next activity
+        // Reopen main menu with the camera.
         startActivity(intent)
     }
 
     private fun getUsers(): List<User> {
+        // Get the list of all users from shared preferences.
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(
             sharedPrefFile,
             Context.MODE_PRIVATE
@@ -74,6 +73,7 @@ class LogInActivity : AppCompatActivity() {
     }
 
     private fun setSignedInUser(userFound: User) {
+        // Set the user to signed in after correctly entering their credentials.
         val sharedPreferences: SharedPreferences =
             this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
@@ -84,6 +84,7 @@ class LogInActivity : AppCompatActivity() {
 
     @SuppressLint("DefaultLocale")
     private fun attemptSignIn(listOfUsers: List<User>) {
+        // Check if the credentials entered match a user.
         val emailEditText = findViewById<EditText>(R.id.userEmailEditText)
         val passwordEditText = findViewById<EditText>(R.id.userPasswordEditText)
         val password = passwordEditText.text.toString()
@@ -96,15 +97,15 @@ class LogInActivity : AppCompatActivity() {
                     // Create toast that you are signed
                     val firstName = user.firstName
                     Toast.makeText(this, "Hello, $firstName.", Toast.LENGTH_LONG).show()
-                    // Open profile
+                    // Open profile and set user to signed in.
                     setSignedInUser(user)
                     openProfile()
                     return
                 }
             }
         }
-        // Failed to find correct user
-        // Create toast
+        // Failed to find correct user.
+        // Create toast.
         Toast.makeText(
             this,
             "Sorry we could not find an account with those credentials. Try again!",
@@ -115,14 +116,12 @@ class LogInActivity : AppCompatActivity() {
     private fun openProfile() {
         // Upon success signing in open the profile.
         val intent = Intent(this, ProfileActivity::class.java)
-        // start your next activity
         startActivity(intent)
     }
 
     private fun openRegister() {
         // Opens the registration screen.
         val intent = Intent(this, RegisterActivity::class.java)
-        // start your next activity
         startActivity(intent)
     }
 }

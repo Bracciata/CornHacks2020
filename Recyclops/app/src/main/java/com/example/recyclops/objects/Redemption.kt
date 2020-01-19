@@ -2,7 +2,7 @@ package com.example.recyclops
 
 import java.util.*
 
-class Redemption(reward: Reward) {
+public class Redemption(reward: Reward) {
     var rewardRedeemed: Reward = reward
     // Save cost separately because the cost may change in the future
     var purchaseCost: Int = reward.cost

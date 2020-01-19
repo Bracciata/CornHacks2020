@@ -23,17 +23,17 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun setupRegistration() {
         setContentView(R.layout.activity_register)
+        // Add listener for register button being clicked.
         val registerButton = findViewById<Button>(R.id.complete_registration_button)
-        // set on-click listener
         registerButton.setOnClickListener {
             register()
         }
+        // Add a back button to the toolbar.
         var toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    // actions on click menu items
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         android.R.id.home -> {
             // Open Camera
@@ -48,18 +48,22 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun returnToMain() {
+        // Reopen the main menu.
         val intent = Intent(this, MainActivity::class.java)
-        // start your next activity
         startActivity(intent)
     }
 
     private fun register() {
-        // Save account
+        // Get the entered information and compare against list of existing users to determine
+        // if the new account is valid.
+        // Get the list of existing users.
         var listOfUsers = getUsers()
+        // Get the entered information.
         var emailEditText = findViewById<EditText>(R.id.register_email_edit_text)
         var passwordEditText = findViewById<EditText>(R.id.register_password_edit_text)
         var fNameEditText = findViewById<EditText>(R.id.register_first_name_edit_text)
         var lNameEditText = findViewById<EditText>(R.id.register_last_name_edit_text)
+        // Check that there is not an existing user with the same email.s
         for (user in listOfUsers) {
             if (user.email == emailEditText.text.toString()) {
                 Toast.makeText(
@@ -70,6 +74,7 @@ class RegisterActivity : AppCompatActivity() {
                 return
             }
         }
+        // They passed the comparison so create the user.
         var newUser = User(
             fNameEditText.text.toString(),
             lNameEditText.text.toString(),
@@ -77,14 +82,18 @@ class RegisterActivity : AppCompatActivity() {
             passwordEditText.text.toString(),
             listOfUsers.size.toString()
         )
+        // Add the user to list of users.
         listOfUsers.add(newUser)
+        // Set the signed in user to the user that was just created.
         setSignedInUser(newUser)
+        // Update the entire list of users to save the new user.
         updateListOfUsers(listOfUsers)
         // Open Profile page
         openProfile()
     }
 
     private fun updateListOfUsers(listOfUsers: List<User>) {
+        // Update the list of users in shared preferences.
         val sharedPreferences: SharedPreferences =
             this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
@@ -94,6 +103,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun getUsers(): MutableList<User> {
+        // Get the list of all users from shared preferences.
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(
             sharedPrefFile,
             Context.MODE_PRIVATE
@@ -103,6 +113,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun setSignedInUser(userFound: User) {
+        // Assign the recently created user to be considered signed in by shared preferences.
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(
             sharedPrefFile,
             Context.MODE_PRIVATE
@@ -114,8 +125,8 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun openProfile() {
+        // Open the profile after the user was created.
         val intent = Intent(this, ProfileActivity::class.java)
-        // start your next activity
         startActivity(intent)
     }
 }

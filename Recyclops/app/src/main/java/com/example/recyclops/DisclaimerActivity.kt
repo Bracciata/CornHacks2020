@@ -26,8 +26,8 @@ class DisclaimerActivity : AppCompatActivity() {
     }
 
     private fun openMain() {
+        // Open the Camera Activity leading to the rest of the application.
         val intent = Intent(this, MainActivity::class.java)
-        // start your next activity
         startActivity(intent)
     }
 }
