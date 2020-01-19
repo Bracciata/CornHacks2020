@@ -20,6 +20,8 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import java.io.IOException
 import android.location.Address
+import android.view.MenuItem
+import androidx.appcompat.widget.Toolbar
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 
@@ -50,6 +52,28 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
             }
         }
         createLocationRequest()
+
+        var toolbar : Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+    }
+    // actions on click menu items
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        android.R.id.home -> {
+            // Open Camera
+            returnToMain()
+            true
+        }else ->{
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
+    }
+    private fun returnToMain(){
+        val intent = Intent(this, MainActivity::class.java)
+        // start your next activity
+        startActivity(intent)
     }
 
     companion object {
