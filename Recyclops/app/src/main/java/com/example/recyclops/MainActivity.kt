@@ -255,11 +255,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         Toast.makeText(applicationContext,
                             "You need to log in first!", Toast.LENGTH_SHORT).show()
                         openLogIn()
+
                     }
+                    dialog.dismiss()
+
                 }
 
                 builder.setNegativeButton(android.R.string.no) { dialog, which ->
                     startCamera()
+                    dialog.dismiss()
+
                 }
 
                 builder.show()
