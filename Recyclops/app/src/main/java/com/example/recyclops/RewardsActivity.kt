@@ -27,7 +27,7 @@ class RewardsActivity : AppCompatActivity() {
         val rewards = getRewards()
         val rewardStrings = mutableListOf<String>()
         for (reward in rewards) {
-            rewardStrings.add("Buy ${reward.title} for ${reward.cost} on ${reward.timeAdded}")
+            rewardStrings.add("Buy ${reward.title} for ${reward.cost} tokens")
         }
 
             listView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,
