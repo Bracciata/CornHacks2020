@@ -33,6 +33,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var lastLocation: Location
 
+    //Initialing Google Map and presetting it with locations
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
@@ -52,12 +53,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         }
         createLocationRequest()
 
-        var toolbar: Toolbar = findViewById(R.id.toolbar)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     }
-
     // actions on click menu items
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         android.R.id.home -> {
@@ -84,6 +84,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
     }
 
     private fun setUpMap() {
+        // ensure the user has given permission to use current location feature
         if (ActivityCompat.checkSelfPermission(
                 this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -110,10 +111,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         }
     }
 
+    // preset marker icons onto map layer
     private fun placeMarkerOnMap(location: LatLng) {
         val markerOptions = MarkerOptions().position(location)
 
-        val titleStr = getAddress(location)  // add these two lines
+        val titleStr = getAddress(location)
         markerOptions.title(titleStr)
 
         map.addMarker(markerOptions)
@@ -166,7 +168,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
     private lateinit var locationRequest: LocationRequest
     private var locationUpdateState = false
 
-
+    // Setting rest API to retrieve user's location
     private fun createLocationRequest() {
         locationRequest = LocationRequest()
         locationRequest.interval = 10000
@@ -201,6 +203,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         }
     }
 
+    // displaying user's current location real time
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CHECK_SETTINGS) {
@@ -223,9 +226,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         }
     }
 
+    // sets location markers after map is initialized
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
+        // locations of recycling plants near the Johnny Carson Center
         val greenQuest = LatLng(40.809, -96.715)  // this is Green Quest Recycling
         map.addMarker(MarkerOptions().position(greenQuest).title("Green Quest Recycling"))
         val americanRecycling = LatLng(40.763, -96.700)  // this is American Recycling
