@@ -116,8 +116,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onPrepareOptionsMenu(menu: Menu) : Boolean {
         try {
-
-
             var item: MenuItem = menu.findItem(R.id.nav_profile)
             // Check if user is signed in and if so add their name to the text.
             // If not then state not logged in.
@@ -149,18 +147,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_profile -> {
                 Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show()
+                openProfile()
             }
-            R.id.nav_rewards -> {
-                Toast.makeText(this, "Messages clicked", Toast.LENGTH_SHORT).show()
-            }
-            R.id.nav_leaderboards -> {
-                Toast.makeText(this, "Friends clicked", Toast.LENGTH_SHORT).show()
-            }
-            R.id.nav_view -> {
-                Toast.makeText(this, "Update clicked", Toast.LENGTH_SHORT).show()
-            }
+//  >>> Potential addition of Manual Entries <<<
+//
+//            R.id.nav_view -> {
+//                Toast.makeText(this, "Update clicked", Toast.LENGTH_SHORT).show()
+//            }
             R.id.nav_map -> {
                 Toast.makeText(this, "Sign out clicked", Toast.LENGTH_SHORT).show()
+                openMap()
+            }
+            R.id.nav_leaderboards -> {
+                Toast.makeText(this, "Leaderboards clicked", Toast.LENGTH_SHORT).show()
+                openLeaderboard()
+            }
+            R.id.nav_rewards -> {
+                Toast.makeText(this, "Rewards clicked", Toast.LENGTH_SHORT).show()
+                openRewards()
+            }
+            R.id.nav_guide -> {
+                Toast.makeText(this, "Guide clicked", Toast.LENGTH_SHORT).show()
+                openGuide()
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -252,7 +260,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     private fun openProfile(){
         // Check if logged in
-        val loggedIn = false; // TODO: Implement this
+        val loggedIn = false;
         if(loggedIn){
             openProfileConfirmed()
         }else{
@@ -260,7 +268,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
     private fun openProfileConfirmed(){
-        // val intent = Intent(this, Profile::class.java)
+        val intent = Intent(this, ProfileActivity::class.java)
         // start your next activity
         startActivity(intent)
     }
@@ -268,7 +276,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val intent = Intent(this, LogInActivity::class.java)
         // start your next activity
         startActivity(intent)
-
+    }
+//  >>> Potential addition of Manual Entries <<<
+//
+//    private fun openView() {
+//        val intent = Intent(this, View::class.java)
+//        // start your next activity
+//        startActivity(intent)
+//    }
+    private fun openMap() {
+        val intent = Intent(this, MapActivity::class.java)
+        // start your next activity
+        startActivity(intent)
+    }
+    private fun openLeaderboard() {
+        val intent = Intent(this, LeaderboardsAndFriendsActivity::class.java)
+        // start your next activity
+        startActivity(intent)
+    }
+    private fun openRewards(){
+        val intent = Intent(this, RewardsActivity::class.java)
+        // start your next activity
+        startActivity(intent)
     }
     private fun openGuide(){
         val intent = Intent(this, GuideActivity::class.java)
