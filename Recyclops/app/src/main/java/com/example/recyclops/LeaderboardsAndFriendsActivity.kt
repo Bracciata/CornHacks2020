@@ -71,7 +71,7 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         listView.setOnItemClickListener { parent, view, position, id ->
 
             val friendToFocus = friendsList[position]
-            val builder = AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle("Remove Friend?")
             builder.setMessage("Would you like to remove ${friendToFocus.firstName} ${friendToFocus.lastName}?")
             builder.setPositiveButton(android.R.string.yes) { dialog, _ ->
@@ -166,7 +166,7 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         listView.setOnItemClickListener { _, _, position, _ ->
 
             val requestToFocus = activeUser.friendRequestsIncomingUserIds[position]
-            val builder = AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle("Add friend?")
             builder.setMessage("Would you like to add the user with the ID: ${requestToFocus}?")
             builder.setPositiveButton(android.R.string.yes) { dialog, which ->

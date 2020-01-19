@@ -40,7 +40,7 @@ class RewardsActivity : AppCompatActivity() {
         listView.setOnItemClickListener { _, _, position, _ ->
 
             val rewardToFocus = rewards[position]
-            val builder = AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle("Purchase?")
             builder.setMessage("Would you like to purchase ${rewardToFocus.title} for ${rewardToFocus.saleCost} points?")
             builder.setPositiveButton(android.R.string.yes) { dialog, _ ->

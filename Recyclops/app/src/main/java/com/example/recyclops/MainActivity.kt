@@ -241,7 +241,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (isTermOnRecycleList(remainder)) {
                 // Pause camera and create builder dialog.
                 CameraX.unbindAll()
-                val builder = AlertDialog.Builder(this)
+                val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
                 builder.setTitle("Recycle?")
                 builder.setMessage("Would you like to recycle the $remainder for one point?")
                 // The user decides to recycle it
