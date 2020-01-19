@@ -31,4 +31,12 @@
 * Add a daily bonus so users get points for interacting with the app daily. 
 * Add limitations on how many points the user can earn a day to prevent people from cheating the system. 
 
+## App Flow Demonstated by a movie and screenshots
+[Link to a video demonstrating use of ScrapShot](https://github.com/Bracciata/CornHacks2020/blob/master/Demo/Demo%20Video.MOV)
+When opening the application you see a disclaimer on recycling: 
+![Image of guidelines to recycling](https://github.com/Bracciata/CornHacks2020/blob/master/Demo/IMG_0207.jpg "Disclaimer Image")
+After that the camera classification model opens and if it recognizes a recyclable item it offers you to recycle it for points: 
+![Image of Mountain Dew bottle with a pop up offering you to recycle it](https://github.com/Bracciata/CornHacks2020/blob/master/Demo/IMG_0207.jpg "Recycle Pop Up Image")
+
+
 
