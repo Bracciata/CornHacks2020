@@ -47,6 +47,7 @@ class LogInActivity : AppCompatActivity() {
         val editor: SharedPreferences.Editor =  sharedPreferences.edit()
         val usersJson = Gson().toJson(userFound)
         editor.putString("active_user_key",usersJson)
+        editor.commit()
     }
     private fun attemptSignIn(listOfUsers:List<User>){
         val emailEditText = findViewById(R.id.userEmailEditText) as EditText
