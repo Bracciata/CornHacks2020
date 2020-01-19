@@ -1,4 +1,4 @@
-package com.example.recyclops;
+package com.example.recyclops
 
 import java.util.*
 
@@ -23,7 +23,7 @@ class User(
 
 
     fun getId(): String {
-        return userId;
+        return userId
     }
 
     fun checkPassword(passwordAttempt: String): Boolean {

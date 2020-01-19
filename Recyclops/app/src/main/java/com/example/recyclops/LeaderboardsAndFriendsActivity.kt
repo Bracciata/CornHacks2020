@@ -71,7 +71,7 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
             stringsForLeaderboard
         )
         layout.addView(listView)
-        listView.setOnItemClickListener { parent, view, position, id ->
+        listView.setOnItemClickListener { _, _, position, _ ->
 
             val friendToFocus = friendsList[position]
             val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
@@ -92,7 +92,7 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
                 reload()
             }
 
-            builder.setNegativeButton(android.R.string.no) { dialog, which ->
+            builder.setNegativeButton(android.R.string.no) { dialog, _ ->
                 Toast.makeText(
                     applicationContext,
                     "Cancelled", Toast.LENGTH_SHORT
@@ -185,7 +185,7 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
             val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle("Add friend?")
             builder.setMessage("Would you like to add the user with the ID: ${requestToFocus}?")
-            builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+            builder.setPositiveButton(android.R.string.yes) { dialog, _ ->
                 for (user in users) {
                     if (user.getId() == requestToFocus) {
                         activeUser.addFriend(user)

@@ -86,7 +86,7 @@ class RewardsActivity : AppCompatActivity() {
 
             }
 
-            builder.setNegativeButton(android.R.string.no) { dialog, which ->
+            builder.setNegativeButton(android.R.string.no) { dialog, _ ->
                 // They don't want to buy it so simply treat it as a cancel.
                 dialog.dismiss()
             }
