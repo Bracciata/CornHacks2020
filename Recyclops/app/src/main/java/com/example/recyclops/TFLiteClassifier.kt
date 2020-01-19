@@ -24,12 +24,11 @@ import org.tensorflow.lite.Interpreter
 class TFLiteClassifier(private val context: Context) {
 
     private var interpreter: Interpreter? = null
-    var isInitialized = false
-        private set
+    private var isInitialized = false
 
     private var gpuDelegate: GpuDelegate? = null
 
-    var labels = ArrayList<String>()
+    private var labels = ArrayList<String>()
 
     private val executorService: ExecutorService = Executors.newCachedThreadPool()
 
@@ -49,7 +48,6 @@ class TFLiteClassifier(private val context: Context) {
 
     @Throws(IOException::class)
     private fun initializeInterpreter() {
-
 
         val assetManager = context.assets
         val model = loadModelFile(assetManager, "mobilenet_v1_1.0_224.tflite")
@@ -103,7 +101,6 @@ class TFLiteClassifier(private val context: Context) {
         return index
     }
 
-
     private fun classify(bitmap: Bitmap): String {
 
         check(isInitialized) { "TF Lite Interpreter is not initialized yet." }
@@ -113,15 +110,12 @@ class TFLiteClassifier(private val context: Context) {
         val byteBuffer = convertBitmapToByteBuffer(resizedImage)
 
         val output = Array(1) { FloatArray(labels.size) }
-        val startTime = SystemClock.uptimeMillis()
+        SystemClock.uptimeMillis()
         interpreter?.run(byteBuffer, output)
-        val endTime = SystemClock.uptimeMillis()
+        SystemClock.uptimeMillis()
+        val index = getMaxResult(output[0])
 
-        var inferenceTime = endTime - startTime
-        var index = getMaxResult(output[0])
-        var result = "Prediction is ${labels[index]}\nAccuracy ${output[0][index]}"
-
-        return result
+        return "Prediction is ${labels[index]}\nAccuracy ${output[0][index]}"
     }
 
     fun classifyAsync(bitmap: Bitmap): Task<String> {
@@ -162,7 +156,6 @@ class TFLiteClassifier(private val context: Context) {
             }
         }
         bitmap.recycle()
-
         return byteBuffer
     }
 

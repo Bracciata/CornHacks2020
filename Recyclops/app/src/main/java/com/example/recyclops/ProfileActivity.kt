@@ -1,6 +1,7 @@
 package com.example.recyclops
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -14,15 +15,13 @@ import com.google.gson.Gson
 
 class ProfileActivity : AppCompatActivity() {
     private val sharedPrefFile = "kotlinsharedpreference"
-
-    // TODO: add log out button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         populateProfile()
     }
     private fun populateProfile() {
         setContentView(R.layout.activity_profile)
-        var toolbar : Toolbar = findViewById(R.id.toolbar)
+        val toolbar : Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -37,6 +36,7 @@ class ProfileActivity : AppCompatActivity() {
             logout()
         }
     }
+
     // actions on click menu items
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         android.R.id.home -> {
@@ -49,13 +49,15 @@ class ProfileActivity : AppCompatActivity() {
             super.onOptionsItemSelected(item)
         }
     }
+
+    @SuppressLint("SetTextI18n")
     private fun populateUserInformation(activeUser: User){
         findViewById<TextView>(R.id.nameText).text = "Hello, ${activeUser.firstName} ${activeUser.lastName}."
         findViewById<TextView>(R.id.emailText).text = "Email: ${activeUser.email}"
         findViewById<TextView>(R.id.currentPointsText).text = "You currently have ${activeUser.points} points."
         findViewById<TextView>(R.id.totalPointsText).text = "You have earned ${activeUser.totalPoints} points in total."
     }
-    fun getSignedInUser(): User{
+    private fun getSignedInUser(): User{
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,
             Context.MODE_PRIVATE)
         val userJson = sharedPreferences.getString("active_user_key","{}")
@@ -71,7 +73,6 @@ class ProfileActivity : AppCompatActivity() {
         editor.putString("active_user_key", emptyUser)
         editor.commit()
         returnToMain()
-
     }
 
 
@@ -80,8 +81,9 @@ class ProfileActivity : AppCompatActivity() {
         // start your next activity
         startActivity(intent)
     }
+
    private fun populateRewardsRedemptionHistory(activeUser:User){
-       var layout = findViewById<ConstraintLayout>(R.id.history_layout)
+       val layout = findViewById<ConstraintLayout>(R.id.history_layout)
        val listView = ListView(this)
        val redemptions = activeUser.redemptionHistory
        val redemptionStrings = mutableListOf<String>()
@@ -91,6 +93,5 @@ class ProfileActivity : AppCompatActivity() {
        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, redemptionStrings)
        listView.adapter = adapter
        layout.addView(listView)
-
     }
 }
