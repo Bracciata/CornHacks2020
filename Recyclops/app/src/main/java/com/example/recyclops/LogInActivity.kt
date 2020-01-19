@@ -51,11 +51,11 @@ class LogInActivity : AppCompatActivity() {
     }
     private fun attemptSignIn(listOfUsers:List<User>){
         val emailEditText = findViewById(R.id.userEmailEditText) as EditText
-        val passwordEditText = findViewById(R.id.userEmailEditText) as EditText
+        val passwordEditText = findViewById(R.id.userPasswordEditText) as EditText
         val password = passwordEditText.text.toString()
         val email = emailEditText.text.toString()
         for(user in listOfUsers){
-            if(user.email==email){
+            if(user.email.toLowerCase()==email.toLowerCase()){
                 // We could also make this end loop here no matter what
                 // because there will not be two users with same email
                 if(user.checkPassword(password)){
@@ -66,8 +66,7 @@ class LogInActivity : AppCompatActivity() {
                     setSignedInUser(user)
                     openProfile()
                 }
-                break
-
+                return
             }
         }
         // Failed to find correct user
