@@ -6,7 +6,9 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.*
+import androidx.appcompat.widget.Toolbar
 import com.google.gson.Gson
 
 class ProfileActivity : AppCompatActivity() {
@@ -20,11 +22,27 @@ class ProfileActivity : AppCompatActivity() {
     }
     private fun populateProfile() {
         setContentView(R.layout.activity_profile)
+        var toolbar : Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         // Populate profile
         // Get the id of the signed in user
         val activeUser:User = getSignedInUser()
         populateUserInformation(activeUser)
         populateRewardsRedemptionHistory(activeUser)
+    }
+    // actions on click menu items
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        android.R.id.home -> {
+            // Open Camera
+            returnToMain()
+            true
+        }else ->{
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
     }
     private fun populateUserInformation(activeUser: User){
 
