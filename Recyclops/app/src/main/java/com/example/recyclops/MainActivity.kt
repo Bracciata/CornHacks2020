@@ -27,6 +27,7 @@ import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.menu.MenuView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -106,7 +107,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         var drawerLayout:DrawerLayout = findViewById(R.id.drawer_layout)
-        // var navView : NavigationView = findViewById(R.id.nav_view)
+        var navView : NavigationView = findViewById(R.id.nav_view)
 
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar, R.string.app_name, 0
@@ -169,10 +170,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Toast.makeText(this, "Rewards clicked", Toast.LENGTH_SHORT).show()
                 openRewards()
             }
-            R.id.nav_guide -> {
+           /* R.id.nav_guide -> {
                 Toast.makeText(this, "Guide clicked", Toast.LENGTH_SHORT).show()
                 openGuide()
-            }
+            }*/
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
@@ -236,9 +237,43 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val remainder = resultText.split("\n")[0].substring(14)
             if(isTermOnRecycleList(remainder)){
                 // Pause camera and create builder dialog.
-                
+                CameraX.unbindAll()
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Recycle?")
+                builder.setMessage("Would you like to recycle the ${remainder} for one point?")
+                //builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+
+                builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                    var user = getSignedInUser()
+                    if (user !== null) {
+
+                        Toast.makeText(applicationContext,
+                            "Recycled", Toast.LENGTH_SHORT).show()
+                        recycleItem()
+                        startCamera()
+                    }else{
+                        Toast.makeText(applicationContext,
+                            "You need to log in first!", Toast.LENGTH_SHORT).show()
+                        openLogIn()
+
+                    }
+                    dialog.dismiss()
+
+                }
+
+                builder.setNegativeButton(android.R.string.no) { dialog, which ->
+                    startCamera()
+                    dialog.dismiss()
+
+                }
+
+                builder.show()
+
             }
         }
+    }
+    fun recycleItem(){
+
     }
     fun isTermOnRecycleList(term: String):Boolean{
         return recyclableItems.contains(term)
@@ -282,10 +317,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     private fun openProfile(){
         // Check if logged in
-        val loggedIn = false;
+        var user = getSignedInUser()
+        var loggedIn= user.firstName != ""
         if(loggedIn){
-            openProfileConfirmed()
-        }else{
+                openProfileConfirmed()
+            }else {
             openLogIn()
         }
     }
