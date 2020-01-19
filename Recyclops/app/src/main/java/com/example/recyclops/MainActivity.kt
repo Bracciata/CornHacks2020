@@ -1,6 +1,5 @@
 package com.example.recyclops
 
-import android.content.ClipData
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -25,18 +24,12 @@ import android.content.Context
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
-import android.widget.Button
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.view.menu.MenuView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
-import com.google.gson.GsonBuilder
-import kotlin.reflect.typeOf
-import org.w3c.dom.Text
 import java.lang.Exception
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -368,7 +361,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startActivity(intent)
     }
     private fun openGuide(){
-        val intent = Intent(this, GuideActivity::class.java)
+        val intent = Intent(this, DisclaimerActivity::class.java)
         // start your next activity
         startActivity(intent)
     }
