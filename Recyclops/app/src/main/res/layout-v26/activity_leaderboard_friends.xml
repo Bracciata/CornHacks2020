@@ -39,33 +39,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/leaderboard_layout" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:textColor="#000"
-        android:textSize="18dp"
-        android:text="Add Friend by entering their User ID below:">
-    </TextView>
-
     <EditText
         android:id="@+id/friendId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:layout_margin="10dp"
         android:fontFamily="@font/roboto_thin"
         android:inputType="textPersonName"
-        android:text="@string/social_feed_ID" />
+        android:autofillHints="User ID" />
 
     <Button
         android:id="@+id/addFriendButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Add Friend" />
-
+        android:text="@string/social_feed_body" />
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
