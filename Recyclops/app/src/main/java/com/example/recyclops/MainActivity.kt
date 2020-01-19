@@ -61,11 +61,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun createRewards():List<Reward>{
         var rewards =  mutableListOf<Reward>()
         // If sale price is equal to price or greater than it is considered not on sale.
-        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
-        rewards.add(Reward(1221,234, "Amazon 1000 Dollar Gift Card"))
-        rewards.add(Reward(40,10, "Reusable Water Bottle"))
-        rewards.add(Reward(8,8, "Metal Straw"))
-        rewards.add(Reward(10,1, "Donate A Tree"))
+        rewards.add(Reward(500,500, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(90000,90000, "Amazon 1000 Dollar Gift Card"))
+        rewards.add(Reward(1500,1500, "Reusable Water Bottle"))
+        rewards.add(Reward(300,300, "Metal Straw"))
+        rewards.add(Reward(250,50, "Donate A Tree"))
         updateRewards(rewards)
         val rewardsTwo = getRewards()
         Log.e(rewardsTwo[1].title,"TOMMY")
@@ -88,6 +88,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         users[4].changePoints(14)
         users[1].changePoints(7)
         users[2].changePoints(11)
+        users[0].changePoints(90900)
 
         updateUsers(users)
         return users

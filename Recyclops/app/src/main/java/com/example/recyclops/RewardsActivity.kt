@@ -30,7 +30,7 @@ class RewardsActivity : AppCompatActivity() {
         val rewards = getRewards()
         val rewardStrings = mutableListOf<String>()
         for (reward in rewards) {
-            rewardStrings.add("Buy ${reward.title} for ${reward.cost} tokens")
+            rewardStrings.add("Buy ${reward.title} for ${reward.saleCost} points")
         }
 
             listView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,
@@ -40,7 +40,7 @@ class RewardsActivity : AppCompatActivity() {
            val rewardToFocus = rewards[position]
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Purchase?")
-            builder.setMessage("Would you like to purchase ${rewardToFocus.title} for ${rewardToFocus.saleCost}?")
+            builder.setMessage("Would you like to purchase ${rewardToFocus.title} for ${rewardToFocus.saleCost} points?")
             builder.setPositiveButton(android.R.string.yes) { dialog, which ->
                 var user = getSignedInUser()
                 if (user !== null) {

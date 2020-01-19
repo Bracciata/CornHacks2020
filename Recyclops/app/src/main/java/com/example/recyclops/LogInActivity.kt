@@ -88,8 +88,8 @@ class LogInActivity : AppCompatActivity() {
                     // Open profile
                     setSignedInUser(user)
                     openProfile()
+                    return
                 }
-                return
             }
         }
         // Failed to find correct user
