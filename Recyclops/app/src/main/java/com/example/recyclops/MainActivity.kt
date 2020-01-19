@@ -37,7 +37,8 @@ import org.w3c.dom.Text
 import java.lang.Exception
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
+    val recyclableItems = arrayOf("paper", "newspaper", "cardboard", "plastic", "phonebooks", "magazines", "mail", "tin", "aluminum",
+        "steel", "glass", "soft drink", "beer bottles", "wine", "liquor")
     private var lensFacing = CameraX.LensFacing.BACK
     private val TAG = "MainActivity"
 
@@ -225,12 +226,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             // Check if on recyclable list
             val remainder = resultText.split("\n")[0].substring(14)
             if(isTermOnRecycleList(remainder)){
-
+                // Pause camera and create builder dialog.
+                
             }
         }
     }
     fun isTermOnRecycleList(term: String):Boolean{
-
+        return recyclableItems.contains(term)
     }
     fun ImageProxy.toBitmap(): Bitmap {
         val yBuffer = planes[0].buffer // Y
