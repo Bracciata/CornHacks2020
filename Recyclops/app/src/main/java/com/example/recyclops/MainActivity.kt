@@ -105,6 +105,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
+
+        invalidateOptionsMenu()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
