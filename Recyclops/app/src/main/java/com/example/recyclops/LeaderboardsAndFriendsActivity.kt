@@ -124,7 +124,7 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
     }
 
     @SuppressLint("ShowToast")
-    private fun addFriend(userId:String, listOfUsers:List<User>){
+    private fun addFriend(userId:String){
         val friendIdEditText = findViewById<EditText>(R.id.friendId)
         val friendId = friendIdEditText.text.toString()
         val listOfUsers = getUsers()
