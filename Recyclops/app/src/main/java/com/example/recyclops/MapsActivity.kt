@@ -189,6 +189,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
      */
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        val greenQuest = LatLng(40.809, -96.715)  // this is Green Quest Recycling
+        map.addMarker(MarkerOptions().position(greenQuest).title("Green Quest Recycling"))
+        val americanRecycling = LatLng(40.763, -96.700)  // this is American Recycling
+        map.addMarker(MarkerOptions().position(americanRecycling).title("American Recycling"))
+        val starCity = LatLng(40.841, -96.671)  // this is Star City Recycling
+        map.addMarker(MarkerOptions().position(starCity).title("Star City Recycling"))
+        val lincolnRecycling = LatLng(40.838, -96.687)  // this is Lincoln Recycling
+        map.addMarker(MarkerOptions().position(lincolnRecycling).title("Lincoln Recycling"))
+        val recyclingDropOff = LatLng(40.865, -96.723)  // this is Recycling Drop-off Location
+        map.addMarker(MarkerOptions().position(recyclingDropOff).title("Recycling Drop-off Location"))
+        val sadfoffIron = LatLng(40.870, -96.782)  // this is Sadfoff Iron & Metal Company
+        map.addMarker(MarkerOptions().position(sadfoffIron).title("Sadfoff Iron & Metal Company"))
+        val neighborhoodRecycling = LatLng(40.795, -96.704)  // this is Neighborhood Recycling Drop-off
+        map.addMarker(MarkerOptions().position(neighborhoodRecycling).title("Neighborhood Recycling Drop-off"))
+
+
+
+
+
+
 
         map.uiSettings.isZoomControlsEnabled = true
         map.setOnMarkerClickListener(this)
