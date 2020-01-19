@@ -22,12 +22,14 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import android.content.Context
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import kotlin.reflect.typeOf
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -164,7 +166,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             setImageReaderMode(ImageAnalysis.ImageReaderMode.ACQUIRE_LATEST_IMAGE)
         }.build()
 
-
         val analyzerUseCase = ImageAnalysis(analyzerConfig)
         analyzerUseCase.analyzer =
             ImageAnalysis.Analyzer { image: ImageProxy, rotationDegrees: Int ->
@@ -173,13 +174,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 tfLiteClassifier
                     .classifyAsync(bitmap)
-                    .addOnSuccessListener { resultText -> predictedTextView?.text = resultText }
-                    .addOnFailureListener { error -> }
+                    .addOnSuccessListener { resultText ->checkResult(resultText.toString())}
+                    .addOnFailureListener { error -> Log.e("IMAGE ERROR",error.toString())}
 
             }
         CameraX.bindToLifecycle(this, preview, analyzerUseCase)
     }
 
+    fun checkResult(resultText: String){
+        Log.d(resultText,"here")
+        val predictedTextView = findViewById(R.id.predictedTextView) as TextView
+        predictedTextView.text=resultText
+    }
     fun ImageProxy.toBitmap(): Bitmap {
         val yBuffer = planes[0].buffer // Y
         val uBuffer = planes[1].buffer // U
