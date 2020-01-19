@@ -35,25 +35,29 @@
 [Link to a video demonstrating use of ScrapShot](https://github.com/Bracciata/CornHacks2020/blob/master/Demo/Demo%20Video.MOV)
 
 When opening the application you see a disclaimer on recycling: 
-![Image of guidelines to recycling](https://github.com/Bracciata/CornHacks2020/blob/master/Demo/IMG_0207.jpg "Disclaimer Image")
+<img src="Demo/IMG_0207.jpg" width="200">
 
 After that the camera classification model opens and if it recognizes a recyclable item it offers you to recycle it for points: 
-![Image of Mountain Dew bottle with a pop up offering you to recycle it](https://github.com/Bracciata/CornHacks2020/blob/master/Demo/IMG_0207.jpg =250x "Recycle Pop Up Image")
+<img src="Demo/IMG_0208.jpg" width="200">
 
 In order to get points you will need to have a profile like the one shown: 
-![Image of the profile screen with general information about the user and their redemption history.](https://github.com/Bracciata/CornHacks2020/blob/master/Demo/IMG_0209.jpg =250x "User Profile Image")
+<img src="Demo/IMG_0209.jpg" width="200">
 
 Do not worry if you do not have an account because you will be able to register: 
-![Image of registration page asking for first name, last name, email address, and password. Followed by a register button.](https://github.com/Bracciata/CornHacks2020/blob/master/Demo/IMG_0214.jpg =250x "Registration Form Image")
+<img src="Demo/IMG_0214.jpg" width="200">
+
 
 What is the point of getting points if you can not do anything with them? We have many rewards for users to redeem in order to keep them recycling:
-![Image of purchasing a tree to donate](https://github.com/Bracciata/CornHacks2020/blob/master/Demo/IMG_0210.jpg =250x "Image of purchase confirmation pop up")
+<img src="Demo/IMG_0210.jpg" width="200">
+
 
 Maybe you don't care about the trophy but want to win because of pride. Use the leaderboard to prove you are better at recycling than your friends:
-![Image of leaderboard and friends list screen](https://github.com/Bracciata/CornHacks2020/blob/master/Demo/IMG_0211.jpg =250x "Image of leaderboard and friends list")
+<img src="Demo/IMG_0211.jpg" width="200">
+
 
 There is also a map of recycling plants nearby you: 
-![Google Map with recycling plants labeled](https://github.com/Bracciata/CornHacks2020/blob/master/Demo/IMG_0213.jpg =250x "Recycle Plant Map Image")
+<img src="Demo/IMG_0213.jpg" width="200">
+
 
 
 
