@@ -24,7 +24,7 @@ class User(val fName:String, var lName:String,val emailAdd:String,var passwordHa
         return passwordAttempt==password
     }
     fun addFriend(friend:User){
-
+        friends.add(friend)
     }
     fun redeemPrize(prize:Reward){
         redemptionHistory.add(Redemption(prize))
