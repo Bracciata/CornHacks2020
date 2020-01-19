@@ -25,6 +25,7 @@ import android.content.Context
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Button
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -33,6 +34,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import com.google.gson.GsonBuilder
 import kotlin.reflect.typeOf
 import org.w3c.dom.Text
 import java.lang.Exception
@@ -65,6 +67,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         rewards.add(Reward(8,8, "Metal Straw"))
         rewards.add(Reward(10,1, "Donate A Tree"))
         updateRewards(rewards)
+        val rewardsTwo = getRewards()
+        Log.e(rewardsTwo[1].title,"TOMMY")
         return rewards
     }
     private fun createUsers(rewards: List<Reward>):List<User>{
@@ -225,7 +229,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun checkResult(resultText: String){
-        Log.d(resultText,"here")
         val predictedTextView = findViewById(R.id.predictedTextView) as TextView
         predictedTextView.text=resultText
         var resultNumber = resultText.split(".")[1]
@@ -396,20 +399,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor =  sharedPreferences.edit()
         val rewardsJson = Gson().toJson(rewards)
+        Log.e("here",rewardsJson)
         editor.putString("rewards_key",rewardsJson)
+        editor.commit()
     }
     fun getRewards():List<Reward>{
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-        val rewardsJson = sharedPreferences.getString("rewards_key","{}")
-        val rewardList:  MutableList<Reward> = Gson().fromJson(rewardsJson, Array<Reward>::class.java).toMutableList()
-        return rewardList
+        val rewardsJson = sharedPreferences.getString("rewards_key","[]")
+        Log.e("TOMMYPLEASE",rewardsJson.toString())
 
+        val rewardList:  List<Reward> = Gson().fromJson(rewardsJson, Array<Reward>::class.java).toList()
+        return rewardList
     }
     fun updateUsers(users:List<User>){
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor =  sharedPreferences.edit()
         val usersJson = Gson().toJson(users)
         editor.putString("users_key",usersJson)
+        editor.commit()
+
     }
     fun getUsers():List<User>{
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
@@ -424,10 +432,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return user
     }
 
-
-
     override fun onDestroy() {
         tfLiteClassifier.close()
         super.onDestroy()
     }
+
 }
