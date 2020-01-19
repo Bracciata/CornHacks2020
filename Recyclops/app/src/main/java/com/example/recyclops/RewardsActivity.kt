@@ -6,10 +6,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.ArrayAdapter
-import android.widget.ListAdapter
-import android.widget.ListView
-import android.widget.RelativeLayout
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import com.google.gson.Gson
@@ -28,7 +25,7 @@ class RewardsActivity : AppCompatActivity() {
         var toolbar : Toolbar = findViewById(R.id.toolbarRewards)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        val constraintLayout = findViewById(R.id.relativeLayoutRewards) as RelativeLayout
+        val constraintLayout = findViewById(R.id.relativeLayoutRewardsList) as RelativeLayout
         val listView = ListView(this)
         val rewards = getRewards()
         val rewardStrings = mutableListOf<String>()
