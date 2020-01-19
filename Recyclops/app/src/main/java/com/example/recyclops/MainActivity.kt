@@ -213,7 +213,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val analyzerUseCase = ImageAnalysis(analyzerConfig)
         analyzerUseCase.analyzer =
-            ImageAnalysis.Analyzer { image: ImageProxy, rotationDegrees: Int ->
+            ImageAnalysis.Analyzer { image: ImageProxy, _: Int ->
 
                 val bitmap = image.toBitmap()
 
