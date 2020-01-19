@@ -286,7 +286,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun updateActiveUser(activeUser: User) {
-        // Update the user after they recycled.
+        // Update the user's properties after they recycled.
         val users = getUsers()
         for (user in users) {
             if (user.email == activeUser.email) {
@@ -420,23 +420,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startActivity(intent)
     }
 
-    // Check if the permissions for the camera were granted or denied.
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == requestPermission) {
-            if (allPermissionsGranted()) {
-                startCamera()
-            } else {
-                Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT)
-                    .show()
-                finish()
-            }
-        }
-    }
-
     // Prepare app because permissions were granted.
     private fun allPermissionsGranted(): Boolean {
         for (permission in requiredPermission) {
@@ -451,8 +434,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    // Save the rewards to shared prefernces.
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        // Check if the permissions for the camera were granted or denied.
+        if (requestCode == requestPermission) {
+            if (allPermissionsGranted()) {
+                startCamera()
+            } else {
+                Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT)
+                    .show()
+                finish()
+            }
+        }
+    }
+
     private fun updateRewards(rewards: List<Reward>) {
+        // Save the rewards to shared preferences.
         val sharedPreferences: SharedPreferences =
             this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
@@ -462,8 +462,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         editor.apply()
     }
 
-    // Update the list of all users.
     private fun updateUsers(users: List<User>) {
+        // Update the list of all users.
         val sharedPreferences: SharedPreferences =
             this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
