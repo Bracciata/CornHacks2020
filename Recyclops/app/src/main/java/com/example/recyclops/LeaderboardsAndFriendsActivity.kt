@@ -47,6 +47,16 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         var friends = activeUser.friends
         friends.sortedBy { friend -> friend.totalPoints }
         // Populate in list view.
+        var stringsForLeaderboard: MutableList<String> = mutableListOf()
+        var count: Int = 1
+        for(friend in friends){
+            stringsForLeaderboard.add("${count}. ${friend.firstName} ${friend.lastName}(Total points: ${friend.totalPoints}")
+        }
+        val layout = findViewById(R.id.requestLayout) as RelativeLayout
+        val listView = ListView(this)
+        listView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,
+            stringsForLeaderboard) as ListAdapter?
+        layout.addView(listView)
     }
     fun getUsers():List<User>{
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
