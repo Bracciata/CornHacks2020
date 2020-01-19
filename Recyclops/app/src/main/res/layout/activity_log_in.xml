@@ -54,10 +54,10 @@
         android:id="@+id/signInButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="Sign-in" />
     <Button
-    android:id="@+id/registerButton"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Button" />
+        android:id="@+id/registerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register" />
 </LinearLayout>
