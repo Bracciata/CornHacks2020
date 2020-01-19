@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -107,7 +106,7 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
     private fun getUsers():List<User>{
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
         val userJson = sharedPreferences.getString("users_key","{}")
-        return Gson().fromJson(userJson, Array<User>::class.java).toMutableList()
+        return Gson().fromJson(userJson, Array<User>::class.java).toList()
     }
 
     private fun getSignedInUser(): User{
@@ -125,14 +124,14 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
 
     @SuppressLint("ShowToast")
     private fun addFriend(userId:String){
-        val friendIdEditText = findViewById<EditText>(R.id.friendId)
+        val friendIdEditText = findViewById<EditText>(R.id.friend_id_edit_text)
         val friendId = friendIdEditText.text.toString()
         val listOfUsers = getUsers()
         if(userId!==friendId) {
             for(user in listOfUsers){
-                if(user.getId()==friendId){
+                if(userId==friendId){
                     user.addRequest(userId)
-                    Toast.makeText(this,"Sent ${user.firstName} a friend request.",Toast.LENGTH_LONG)
+                    Toast.makeText(this,"Sent ${user.firstName} a friend request.",Toast.LENGTH_LONG).show()
                     // Save users to add request
                     updateUsers(listOfUsers)
                     return
@@ -140,9 +139,9 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
             }
         }else{
             // They tried to add themselves as a friend. Sad.
-            Toast.makeText(this,"You can not add yourself as a friend.",Toast.LENGTH_LONG)
+            Toast.makeText(this,"You can not add yourself as a friend.",Toast.LENGTH_LONG).show()
         }
-        Toast.makeText(this,"Could not find a user with the id: $friendId.",Toast.LENGTH_LONG)
+        Toast.makeText(this,"Could not find a user with the id: $friendId.",Toast.LENGTH_LONG).show()
     }
 
     private fun updateUsers(users: List<User>){

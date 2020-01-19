@@ -50,14 +50,14 @@
     </TextView>
 
     <EditText
-        android:id="@+id/friendId"
+        android:id="@+id/friend_id_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:layout_margin="10dp"
         android:fontFamily="@font/roboto_thin"
         android:inputType="textPersonName"
-        android:text="@string/social_feed_ID" />
+        android:hint="@string/social_feed_ID" />
 
     <Button
         android:id="@+id/addFriendButton"
