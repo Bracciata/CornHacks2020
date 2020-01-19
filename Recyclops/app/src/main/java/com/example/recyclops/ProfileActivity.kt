@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.gson.Gson
 
 class ProfileActivity : AppCompatActivity() {
@@ -45,7 +46,10 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
     private fun populateUserInformation(activeUser: User){
-
+        findViewById<TextView>(R.id.nameText).text = "Hello, ${activeUser.firstName} ${activeUser.lastName}."
+        findViewById<TextView>(R.id.emailText).text = "Email: ${activeUser.email}"
+        findViewById<TextView>(R.id.currentPointsText).text = "You currently have ${activeUser.points} points."
+        findViewById<TextView>(R.id.totalPointsText).text = "You have earned ${activeUser.totalPoints} points in total."
     }
     fun getSignedInUser(): User{
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,
@@ -73,8 +77,8 @@ class ProfileActivity : AppCompatActivity() {
         startActivity(intent)
     }
    private fun populateRewardsRedemptionHistory(activeUser:User){
-       var listView = findViewById<ListView>(R.id.redemption_history_list_view)
-
+       var layout = findViewById<ConstraintLayout>(R.id.history_layout)
+       val listView = ListView(this)
        val redemptions = activeUser.redemptionHistory
        val redemptionStrings = mutableListOf<String>()
        for(redemption in redemptions){
@@ -82,6 +86,7 @@ class ProfileActivity : AppCompatActivity() {
        }
        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, redemptionStrings)
        listView.adapter = adapter
+       layout.addView(listView)
 
     }
 }
