@@ -7,9 +7,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import com.google.gson.Gson
 
 class LeaderboardsAndFriendsActivity : AppCompatActivity() {
@@ -20,7 +22,32 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         populateSocial()
     }
     private fun populateSocial() {
+        setContentView(R.layout.activity_leaderboard_friends)
+        var activeUser = getSignedInUser()
+        populateRequestList(activeUser)
+        populateFriendsList(activeUser)
+        populateLeaderboard(activeUser)
+        var toolbar : Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+    }
+    // actions on click menu items
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        android.R.id.home -> {
+            // Open Camera
+            returnToMain()
+            true
+        }else ->{
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
+    }
+    private fun populateLeaderboard(activeUser: User){
+        var friends = activeUser.friends
+        friends.sortedBy { friend -> friend.totalPoints }
+        // Populate in list view.
     }
     fun getUsers():List<User>{
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
@@ -35,7 +62,6 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         val user :  User = Gson().fromJson(userJson, User::class.java)
         return user
     }
-
 
     private fun populateFriendsList(activeUser: User){
 
@@ -72,7 +98,9 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
     }
 
     private fun populateRequestList(activeUser: User){
-
+        for(request in activeUser.friendRequestsIncomingUserIds){
+            
+        }
     }
     private fun acceptFriendRequest(){
 
