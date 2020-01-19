@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         var drawerLayout:DrawerLayout = findViewById(R.id.drawer_layout)
-        // var navView : NavigationView = findViewById(R.id.nav_view)
+        var navView : NavigationView = findViewById(R.id.nav_view)
 
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar, R.string.app_name, 0
@@ -169,10 +169,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Toast.makeText(this, "Rewards clicked", Toast.LENGTH_SHORT).show()
                 openRewards()
             }
-            R.id.nav_guide -> {
+           /* R.id.nav_guide -> {
                 Toast.makeText(this, "Guide clicked", Toast.LENGTH_SHORT).show()
                 openGuide()
-            }
+            }*/
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
