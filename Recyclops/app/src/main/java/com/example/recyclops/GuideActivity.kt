@@ -18,9 +18,9 @@ class GuideActivity : AppCompatActivity() {
     private fun openDisclaimer() {
         // Begin with Pokemon Go esque disclaimer on recycling
         setContentView(R.layout.activity_main_disclaimer)
-        val begin_button = findViewById(R.id.openCameraButton) as Button
+        val beginButton = findViewById<Button>(R.id.openCameraButton)
         // Add on click listener to open camera screen.
-        begin_button.setOnClickListener {
+        beginButton.setOnClickListener {
             openMain()
         }
     }
