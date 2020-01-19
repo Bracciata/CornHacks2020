@@ -1,6 +1,6 @@
 # ScrapShot
 
-##### Created by Tommy Bracciata, Danny Tran, Erik Skoog, and Emma Hubka
+##### Created by Tommy Braccia, Danny Tran, Erik Skoog, and Emma Hubka
 
 ## Inspiration
 <p> As the world continues to advance technologically, socially, and economically, we become more and more dependent on items such as plastics, chemicals, and other pollutants. Most of these items end up in landfills, wild habitats, or even worse, back onto city streets. However, this does not need to be the case. We were inspired to make ScrapShot because we wanted to spread awareness by encouraging recycling. Often times we find ourselves asking if we can recycle certain items. By creating an informative application, we can aid people to reduce environmental, energy consumption, and waste. </p>
