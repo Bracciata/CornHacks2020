@@ -185,6 +185,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Log.d(resultText,"here")
         val predictedTextView = findViewById(R.id.predictedTextView) as TextView
         predictedTextView.text=resultText
+        var resultNumber = resultText.split(".")[1]
+        resultNumber = "."+resultNumber
+        var floatResults = resultNumber.toFloat()
+        // Note .8 is a magic number representing the odds of it being correct are over 80%
+        if(floatResults>=.8){
+            // Check if on recyclable list
+            val remainder = resultText.split("\n")[0].substring(14)
+            if(isTermOnRecycleList(remainder)){
+
+            }
+        }
+    }
+    fun isTermOnRecycleList(term: String):Boolean{
+
     }
     fun ImageProxy.toBitmap(): Bitmap {
         val yBuffer = planes[0].buffer // Y
