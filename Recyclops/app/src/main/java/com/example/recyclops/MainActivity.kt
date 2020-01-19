@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             var nameNavText: TextView = findViewById(R.id.nameNav)
             var pointsNavText: TextView = findViewById(R.id.pointsNav)
             var user = getSignedInUser()
-            if (user !== null) {
+            if (user.userIdentification !== "-1") {
                 // Add the user information near the nav drawer
                 nameNavText.text = "${user.firstName} ${user.lastName}"
                 pointsNavText.text = "Points: ${user.points}"
@@ -248,11 +248,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 builder.setPositiveButton(android.R.string.yes) { dialog, which ->
                     var user = getSignedInUser()
-                    if (user !== null) {
+                    if (user.userIdentification !== "-1") {
 
                         Toast.makeText(applicationContext,
-                            "Recycled", Toast.LENGTH_SHORT).show()
-                        recycleItem()
+                            "Recycled. You got one point!", Toast.LENGTH_SHORT).show()
+                        recycleItem(user)
                         startCamera()
                     }else{
                         Toast.makeText(applicationContext,
@@ -275,8 +275,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
     }
-    fun recycleItem(){
-
+    fun recycleItem(signedInUser:User){
+        signedInUser.changePoints(1)
+        // Save user and save list of users.
+        // TODO: Above
     }
     fun isTermOnRecycleList(term: String):Boolean{
         return recyclableItems.contains(term)
@@ -321,7 +323,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun openProfile(){
         // Check if logged in
         var user = getSignedInUser()
-        var loggedIn= user.firstName != ""
+        var loggedIn= user.getId() != "-1"
         if(loggedIn){
                 openProfileConfirmed()
             }else {
@@ -424,10 +426,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return userList
     }
     fun getSignedInUser(): User{
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-        val userJson = sharedPreferences.getString("active_user_key","{}")
-        val user :  User = Gson().fromJson(userJson, User::class.java)
-        return user
+        try {
+            val sharedPreferences: SharedPreferences =
+                this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+            val userJson = sharedPreferences.getString("active_user_key", "[]")
+            val user: User = Gson().fromJson(userJson, User::class.java)
+            return user
+        }
+        catch (ex:Exception){
+            return User("Not","Found","HashshlingingSlasher@gmail.com","Dracula","-1")
+        }
     }
 
     override fun onDestroy() {

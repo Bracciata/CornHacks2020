@@ -5,9 +5,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import com.google.gson.Gson
 
 
@@ -34,6 +36,27 @@ class LogInActivity : AppCompatActivity() {
         registerButton.setOnClickListener {
             openRegister()
         }
+        var toolbar : Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+    }
+    // actions on click menu items
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        android.R.id.home -> {
+            // Open Camera
+            returnToMain()
+            true
+        }else ->{
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
+    }
+    private fun returnToMain(){
+        val intent = Intent(this, MainActivity::class.java)
+        // start your next activity
+        startActivity(intent)
     }
     private fun getUsers():List<User>{
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,
@@ -51,11 +74,11 @@ class LogInActivity : AppCompatActivity() {
     }
     private fun attemptSignIn(listOfUsers:List<User>){
         val emailEditText = findViewById(R.id.userEmailEditText) as EditText
-        val passwordEditText = findViewById(R.id.userEmailEditText) as EditText
+        val passwordEditText = findViewById(R.id.userPasswordEditText) as EditText
         val password = passwordEditText.text.toString()
         val email = emailEditText.text.toString()
         for(user in listOfUsers){
-            if(user.email==email){
+            if(user.email.toLowerCase()==email.toLowerCase()){
                 // We could also make this end loop here no matter what
                 // because there will not be two users with same email
                 if(user.checkPassword(password)){
@@ -66,8 +89,7 @@ class LogInActivity : AppCompatActivity() {
                     setSignedInUser(user)
                     openProfile()
                 }
-                break
-
+                return
             }
         }
         // Failed to find correct user
