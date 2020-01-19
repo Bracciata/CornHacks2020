@@ -19,7 +19,7 @@
             android:title="Rewards" />
         <item
         android:id="@+id/nav_guide"
-        android:icon="@drawable/rewards"
+        android:icon="@drawable/guide"
         android:title="Guide" />
     </group>
 </menu>
