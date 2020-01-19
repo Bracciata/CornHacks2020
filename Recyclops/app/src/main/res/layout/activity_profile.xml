@@ -82,7 +82,6 @@
         android:textColor="#000"
         android:textSize="18dp"
         android:layout_margin="10dp"
-        android:id="@+id/redeemedPrizesText"
         android:text="Redeemed Prizes:"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout

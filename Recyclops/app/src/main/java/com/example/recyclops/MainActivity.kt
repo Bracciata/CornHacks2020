@@ -180,12 +180,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Toast.makeText(this, "Rewards clicked", Toast.LENGTH_SHORT).show()
                 openRewards()
             }
-//  >>> Potential addition of app guide <<<
-//
-/*           R.id.nav_guide -> {
+          R.id.nav_guide -> {
                 Toast.makeText(this, "Guide clicked", Toast.LENGTH_SHORT).show()
                 openGuide()
-            }*/
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
