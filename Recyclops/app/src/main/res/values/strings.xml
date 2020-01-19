@@ -14,4 +14,5 @@
     <string name="recycling_guide_used_oil_header">Used Oil</string>
     <string name="recycling_guide_used_oil_body">Never dump your used motor oil down the drain — the used oil from one oil change can contaminate one million gallons of fresh water. By recycling your used oil you not only help keep our water supply clean, but help reduce American dependence on foreign oil. It takes 42 gallons of crude oil, but only one gallon of used oil, to produce 2.5 quarts of new motor oil. Many garages and auto-supply stores that sell motor oil also accept oil for recycling.</string>
     <string name="recycling_guide_source_link">Source: https://www.epa.gov/recycle/how-do-i-recycle-common-recyclables</string>
+    <string name="title_activity_maps">RecyclingCenters</string>
 </resources>
