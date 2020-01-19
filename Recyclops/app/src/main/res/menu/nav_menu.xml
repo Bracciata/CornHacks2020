@@ -8,14 +8,14 @@
         <item
             android:id="@+id/nav_map"
             android:icon="@mipmap/ic_launcher_round"
-            android:title="Wallet" />
+            android:title="Map" />
         <item
             android:id="@+id/nav_leaderboards"
             android:icon="@mipmap/ic_launcher_round"
-            android:title="Offers" />
+            android:title="Leaderboards" />
         <item
             android:id="@+id/nav_rewards"
             android:icon="@mipmap/ic_launcher_round"
-            android:title="Setting" />
+            android:title="Rewards" />
     </group>
 </menu>
