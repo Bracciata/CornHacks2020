@@ -20,6 +20,30 @@
             android:name=".MainActivity"
             android:label="Main">
         </activity>
+        <activity
+            android:name=".LogInActivity"
+            android:label="Login">
+        </activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:label="Register">
+        </activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:label="Profile">
+        </activity>
+        <activity
+            android:name=".MapActivity"
+            android:label="Map">
+        </activity>
+        <activity
+            android:name=".LeaderboardsAndFriendsActivity"
+            android:label="Leaderboards">
+        </activity>
+        <activity
+            android:name=".RewardsActivity"
+            android:label="Rewards">
+        </activity>
     </application>
     <uses-permission android:name="android.permission.CAMERA" />
 
