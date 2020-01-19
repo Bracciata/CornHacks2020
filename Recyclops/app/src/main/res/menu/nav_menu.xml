@@ -17,5 +17,9 @@
             android:id="@+id/nav_rewards"
             android:icon="@drawable/rewards"
             android:title="Rewards" />
+        <item
+        android:id="@+id/nav_guide"
+        android:icon="@drawable/rewards"
+        android:title="Guide" />
     </group>
 </menu>
