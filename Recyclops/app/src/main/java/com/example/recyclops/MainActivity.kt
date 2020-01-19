@@ -38,8 +38,9 @@ import org.w3c.dom.Text
 import java.lang.Exception
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-    val recyclableItems = arrayOf("paper", "newspaper", "cardboard", "plastic", "phonebooks", "magazines", "mail", "tin", "aluminum",
-        "steel", "glass", "soft drink", "beer bottles", "wine", "liquor")
+    val recyclableItems = arrayOf("paper", "newspaper", "cardboard", "plastic", "phonebooks",
+        "magazines", "mail", "tin", "aluminum", "steel", "glass", "soft drink", "beer bottles",
+        "wine", "liquor", "beer bottle", "beer glass", "plastic bag", "pop bottle", "water bottle")
     private var lensFacing = CameraX.LensFacing.BACK
     private val TAG = "MainActivity"
 
