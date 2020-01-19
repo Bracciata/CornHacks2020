@@ -1,5 +1,6 @@
 package com.example.recyclops
 
+import android.content.ClipData
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -21,13 +22,18 @@ import android.content.Intent
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import android.content.Context
+import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.view.menu.MenuView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import org.w3c.dom.Text
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -105,8 +111,37 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
+        invalidateOptionsMenu()
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu) : Boolean {
+        try {
+
+
+            var item: MenuItem = menu.findItem(R.id.nav_profile)
+            // Check if user is signed in and if so add their name to the text.
+            // If not then state not logged in.
+            var nameNavText: TextView = findViewById(R.id.nameNav)
+            var pointsNavText: TextView = findViewById(R.id.pointsNav)
+            var user = getSignedInUser()
+            if (user !== null) {
+                // Add the user information near the nav drawer
+                nameNavText.text = "${user.firstName} ${user.lastName}"
+                pointsNavText.text = "Points: ${user.points}"
+                // Change the text of the profile log in item based on whether or not signed in
+                item.setTitle("Profile")
+            } else {
+                // State not logged in
+                nameNavText.text = "Not signed in"
+                pointsNavText.text = "Sign in to save your storage"
+                // Change the text of the profile log in item based on whether or not signed in
+                item.setTitle("Log In or Register")
+            }
+        }catch (e:Exception){
+
+        }
+  return super.onPrepareOptionsMenu(menu);
+}
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // TODO: Update this
         var drawerLayout:DrawerLayout = findViewById(R.id.drawer_layout)
