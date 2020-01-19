@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Date;
 
 class User(val fName:String, var lName:String,val emailAdd:String,var passwordHash:String, val userIdentification:String) {
-    var friends : List<User> = listOf<User>()
+    var friends : MutableList<User> = mutableListOf<User>()
     var firstName: String = fName
     var lastName: String = lName
     var email:String=emailAdd

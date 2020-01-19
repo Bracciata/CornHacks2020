@@ -24,7 +24,6 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_leaderboard_friends)
         var activeUser = getSignedInUser()
         populateRequestList(activeUser)
-        populateFriendsList(activeUser)
         populateLeaderboard(activeUser)
         var toolbar : Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -57,6 +56,40 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         listView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,
             stringsForLeaderboard) as ListAdapter?
         layout.addView(listView)
+        listView.setOnItemClickListener { parent, view, position, id ->
+
+            val friendToFocus = friends[position]
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Remove Friend?")
+            builder.setMessage("Would you like to remove ${friendToFocus.firstName} ${friendToFocus.lastName}?")
+            builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                        activeUser.friends.remove(friendToFocus)
+                        Toast.makeText(
+                            applicationContext,
+                            "Removed ${friendToFocus.firstName} ${friendToFocus.lastName}!", Toast.LENGTH_SHORT
+                        ).show()
+
+                // Update list of users and save.
+                saveSignedOnUser(activeUser)
+                saveListOfUsers(activeUser)
+
+                dialog.dismiss()
+
+            }
+
+            builder.setNegativeButton(android.R.string.no) { dialog, which ->
+                Toast.makeText(
+                    applicationContext,
+                    "Cancelled", Toast.LENGTH_SHORT
+                ).show()
+                dialog.dismiss()
+
+            }
+
+
+            builder.show()
+
+        }
     }
     fun getUsers():List<User>{
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
@@ -72,9 +105,6 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         return user
     }
 
-    private fun populateFriendsList(activeUser: User){
-
-    }
     private fun returnToMain(){
         val intent = Intent(this, MainActivity::class.java)
         // start your next activity
