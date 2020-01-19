@@ -34,16 +34,17 @@
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/leaderboard_layout"></RelativeLayout>
-
     <EditText
         android:id="@+id/friendId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:fontFamily="@font/roboto_thin"
         android:inputType="textPersonName"
         android:text="Name" />
 
