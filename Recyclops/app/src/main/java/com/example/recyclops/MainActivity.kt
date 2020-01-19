@@ -83,6 +83,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         users[0].addRequest(users[2].getId())
         // This user wil be added as a friend when demoing
         users.add(User("FriendFirstNameToAdd","MEEEEE","Faker@unl.edu","Acting2019","4"))
+        users.add(User("Johnny","Bikedaughter","JBikedaugher@unl.edu","Acting2019","5"))
+        users[0].addFriend(users[4])
+        users[4].changePoints(14)
+        users[1].changePoints(7)
+        users[2].changePoints(11)
 
         updateUsers(users)
         return users

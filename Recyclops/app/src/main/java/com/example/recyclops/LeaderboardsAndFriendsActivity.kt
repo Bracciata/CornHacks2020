@@ -48,6 +48,7 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         var friends = activeUser.friends
         Log.e("HERE",friends[0].firstName)
         friends.sortedBy { friend -> friend.totalPoints }
+        friends.reverse()
         // Populate in list view.
         var stringsForLeaderboard: MutableList<String> = mutableListOf()
         var count: Int = 1
