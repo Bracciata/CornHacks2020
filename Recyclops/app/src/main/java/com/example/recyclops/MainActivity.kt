@@ -32,6 +32,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import kotlin.reflect.typeOf
 import org.w3c.dom.Text
 import java.lang.Exception
 
@@ -205,7 +206,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             setImageReaderMode(ImageAnalysis.ImageReaderMode.ACQUIRE_LATEST_IMAGE)
         }.build()
 
-
         val analyzerUseCase = ImageAnalysis(analyzerConfig)
         analyzerUseCase.analyzer =
             ImageAnalysis.Analyzer { image: ImageProxy, rotationDegrees: Int ->
@@ -214,13 +214,32 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 tfLiteClassifier
                     .classifyAsync(bitmap)
-                    .addOnSuccessListener { resultText -> predictedTextView?.text = resultText }
-                    .addOnFailureListener { error -> }
+                    .addOnSuccessListener { resultText ->checkResult(resultText.toString())}
+                    .addOnFailureListener { error -> Log.e("IMAGE ERROR",error.toString())}
 
             }
         CameraX.bindToLifecycle(this, preview, analyzerUseCase)
     }
 
+    fun checkResult(resultText: String){
+        Log.d(resultText,"here")
+        val predictedTextView = findViewById(R.id.predictedTextView) as TextView
+        predictedTextView.text=resultText
+        var resultNumber = resultText.split(".")[1]
+        resultNumber = "."+resultNumber
+        var floatResults = resultNumber.toFloat()
+        // Note .8 is a magic number representing the odds of it being correct are over 80%
+        if(floatResults>=.8){
+            // Check if on recyclable list
+            val remainder = resultText.split("\n")[0].substring(14)
+            if(isTermOnRecycleList(remainder)){
+
+            }
+        }
+    }
+    fun isTermOnRecycleList(term: String):Boolean{
+
+    }
     fun ImageProxy.toBitmap(): Bitmap {
         val yBuffer = planes[0].buffer // Y
         val uBuffer = planes[1].buffer // U

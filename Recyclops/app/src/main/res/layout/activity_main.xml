@@ -42,35 +42,41 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <TextureView
-            android:id="@+id/textureView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/rlBottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary">
+
+            <TextureView
+                android:id="@+id/textureView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/rlBottom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-        <RelativeLayout
-            android:id="@+id/rlBottom"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textureView">
-
-            <TextView
-                android:id="@+id/predictedTextView"
+            <RelativeLayout
+                android:id="@+id/rlBottom"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text=""
-                android:textColor="@android:color/white"
-                android:textSize="26sp" />
+                android:layout_height="200dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textureView">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/predictedTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:textSize="26sp" />
+
+            </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
     <com.google.android.material.navigation.NavigationView
