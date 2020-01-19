@@ -163,13 +163,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show()
                 openProfile()
             }
-//  >>> Potential addition of Manual Entries <<<
-//
-//            R.id.nav_view -> {
-//                Toast.makeText(this, "Update clicked", Toast.LENGTH_SHORT).show()
-//            }
             R.id.nav_map -> {
-                Toast.makeText(this, "Sign out clicked", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Map clicked", Toast.LENGTH_SHORT).show()
                 openMap()
             }
             R.id.nav_leaderboards -> {

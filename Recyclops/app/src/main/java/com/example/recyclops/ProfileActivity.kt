@@ -70,6 +70,7 @@ class ProfileActivity : AppCompatActivity() {
         val emptyUser = "{}"
         editor.putString("active_user_key", emptyUser)
         editor.commit()
+        Toast.makeText(this, "Logged out!", Toast.LENGTH_SHORT).show()
         returnToMain()
 
     }

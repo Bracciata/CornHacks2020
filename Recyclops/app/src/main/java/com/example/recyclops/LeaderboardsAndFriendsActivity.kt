@@ -129,7 +129,7 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         startActivity(intent)
     }
     private fun addFriend(userId:String){
-        val friendIdEditText = findViewById(R.id.friendId) as EditText
+        val friendIdEditText = findViewById<EditText>(R.id.friend_id_edit_text)
         val friendId = friendIdEditText.text.toString()
         val listOfUsers = getUsers()
         if(userId!==friendId) {
