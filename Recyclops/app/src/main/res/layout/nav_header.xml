@@ -2,19 +2,23 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="#4CAF50"
         android:orientation="vertical"
         android:gravity="bottom"
-        android:paddingLeft="15dp"
-        android:paddingBottom="15dp">
+        android:paddingStart="15dp"
+        android:paddingBottom="15dp"
+    tools:ignore="RtlSymmetry">
 
     <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@mipmap/ic_launcher"
-        android:layout_marginBottom="15dp"/>
+        android:layout_marginBottom="15dp"
+        android:contentDescription="ScrapShot Icon"
+        tools:ignore="HardcodedText" />
 
     <TextView
             android:layout_width="match_parent"
@@ -22,7 +26,8 @@
             android:text="Not signed in"
             android:id="@+id/nameNav"
             android:textColor="#FFFFFF"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+        tools:ignore="HardcodedText" />
 
     <TextView
             android:layout_width="wrap_content"
@@ -30,6 +35,7 @@
 
             android:id="@+id/pointsNav"
             android:text="Sign in to save points"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF"
+        tools:ignore="HardcodedText" />
 
 </LinearLayout>

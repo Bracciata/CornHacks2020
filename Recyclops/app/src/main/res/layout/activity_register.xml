@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -27,7 +28,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Register"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    tools:ignore="HardcodedText" />
 
 
             </LinearLayout>
@@ -40,8 +42,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:textColor="#000"
-        android:textSize="18dp"
-        android:text="First Name">
+        android:textSize="18sp"
+        android:text="First Name"
+        tools:ignore="HardcodedText">
     </TextView>
 
     <EditText
@@ -52,14 +55,18 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:hint="John" />
+        android:hint="John"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        tools:ignore="HardcodedText" />
     <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:textColor="#000"
-    android:textSize="18dp"
-    android:text="Last Name">
+    android:textSize="18sp"
+    android:text="Last Name"
+        tools:ignore="HardcodedText">
 </TextView>
 
     <EditText
@@ -70,15 +77,19 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:hint="Doe" />
+        android:hint="Doe"
+        android:importantForAutofill="no"
+        tools:ignore="HardcodedText"
+        android:inputType="text" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:textColor="#000"
-        android:textSize="18dp"
-        android:text="Email Address">
+        android:textSize="18sp"
+        android:text="Email Address"
+        tools:ignore="HardcodedText">
     </TextView>
 
     <EditText
@@ -90,15 +101,18 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:hint="example@domain.com"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:importantForAutofill="no"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:textColor="#000"
-        android:textSize="18dp"
-        android:text="Password">
+        android:textSize="18sp"
+        android:text="Password"
+        tools:ignore="HardcodedText">
     </TextView>
 
     <EditText
@@ -109,12 +123,16 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:hint="password" />
+        android:hint="password"
+        tools:ignore="HardcodedText,TextFields"
+        android:importantForAutofill="no"
+        android:inputType="text" />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="Register"
-        android:id="@+id/complete_registration_button"/>
+        android:id="@+id/complete_registration_button"
+        tools:ignore="HardcodedText" />
 
 </LinearLayout>

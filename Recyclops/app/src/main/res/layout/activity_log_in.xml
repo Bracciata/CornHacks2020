@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -27,7 +28,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Log In"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    tools:ignore="HardcodedText" />
 
 
             </LinearLayout>
@@ -39,8 +41,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:textColor="#000"
-        android:textSize="18dp"
-        android:text="Email Address">
+        android:textSize="18sp"
+        android:text="Email Address"
+        tools:ignore="HardcodedText">
     </TextView>
 
     <EditText
@@ -51,15 +54,18 @@
         android:layout_marginRight="10dp"
         android:ems="10"
         android:hint="example@domain.com"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:importantForAutofill="no"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:textColor="#000"
-        android:textSize="18dp"
-        android:text="Password">
+        android:textSize="18sp"
+        android:text="Password"
+        tools:ignore="HardcodedText">
     </TextView>
 
     <EditText
@@ -69,18 +75,21 @@
         android:layout_margin="10dp"
         android:ems="10"
         android:hint="password"
-        android:inputType="textPassword" />
-
+        android:inputType="textPassword"
+        android:importantForAutofill="no"
+        tools:ignore="HardcodedText" />
     <Button
         android:id="@+id/signInButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Sign-in" />
+        android:text="Sign-in"
+        tools:ignore="HardcodedText" />
     <Button
         android:id="@+id/registerButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Register" />
+        android:text="Register"
+        tools:ignore="HardcodedText" />
 </LinearLayout>

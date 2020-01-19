@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -27,7 +28,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Disclaimer"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    tools:ignore="HardcodedText" />
 
 
             </LinearLayout>
@@ -39,14 +41,14 @@
         android:layout_height="match_parent">
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="#000"
-            android:textSize="32dp"
+            android:textSize="32sp"
             android:text="@string/recycling_guide_header" />
 
         <TextView
@@ -55,7 +57,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:textColor="#000"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:text="@string/recycling_guide_paper_header" />
 
         <TextView
@@ -65,7 +67,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
             android:textColor="#000"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:text="@string/recycling_guide_paper_body" />
 
         <TextView
@@ -74,7 +76,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:textColor="#000"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:text="@string/recycling_guide_gift_wrap_header" />
 
 
@@ -85,7 +87,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
             android:textColor="#000"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:text="@string/recycling_guide_gift_wrap_body" />
 
         <TextView
@@ -94,7 +96,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:textColor="#000"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:text="@string/recycling_guide_batteries_header" />
 
 
@@ -105,7 +107,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
             android:textColor="#000"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:text="@string/recycling_guide_batteries_body" />
 
         <TextView
@@ -114,7 +116,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:textColor="#000"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:text="@string/recycling_guide_plastics_header" />
 
         <TextView
@@ -124,7 +126,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
             android:textColor="#000"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:text="@string/recycling_guide_plastics_body" />
 
         <TextView
@@ -133,7 +135,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:textColor="#000"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:text="@string/recycling_guide_glass_header" />
 
         <TextView
@@ -143,7 +145,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
             android:textColor="#000"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:text="@string/recycling_guide_glass_body" />
 
         <TextView
@@ -152,7 +154,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:textColor="#000"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:text="@string/recycling_guide_used_oil_header" />
 
         <TextView
@@ -162,7 +164,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
             android:textColor="#000"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:text="@string/recycling_guide_used_oil_body" />
 
         <TextView
@@ -171,7 +173,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:textColor="#000"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:text="@string/recycling_guide_source_link" />
 
         <Button
@@ -179,7 +181,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Open" />
+            android:text="Open"
+            tools:ignore="HardcodedText" />
     </LinearLayout>
     </ScrollView>
 </LinearLayout>

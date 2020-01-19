@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -45,8 +46,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:textColor="#000"
-        android:textSize="18dp"
-        android:text="Add Friend by entering their User ID below:">
+        android:textSize="18sp"
+        android:text="Add Friend by entering their User ID below:"
+        tools:ignore="HardcodedText">
     </TextView>
 
     <EditText
@@ -57,17 +59,19 @@
         android:layout_margin="10dp"
         android:fontFamily="@font/roboto_thin"
         android:inputType="textPersonName"
-        android:hint="@string/social_feed_ID" />
+        android:hint="@string/social_feed_ID"
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/addFriendButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Add Friend" />
+        android:text="Add Friend"
+        tools:ignore="HardcodedText" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/requestLayout"></RelativeLayout>
+        android:id="@+id/requestLayout" />
 </LinearLayout>
