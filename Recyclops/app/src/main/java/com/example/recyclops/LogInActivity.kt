@@ -91,12 +91,12 @@ class LogInActivity : AppCompatActivity() {
                 if(user.checkPassword(password)){
                     // Create toast that you are signed
                     val firstName = user.firstName
-                    Toast.makeText(this, "Hello, $firstName.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Hello, $firstName.", Toast.LENGTH_LONG).show()
                     // Open profile
                     setSignedInUser(user)
                     openProfile()
+                    return
                 }
-                return
             }
         }
         // Failed to find correct user

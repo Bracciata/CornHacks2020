@@ -26,7 +26,12 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         val activeUser = getSignedInUser()
         populateRequestList(activeUser)
         populateLeaderboard(activeUser)
-        val toolbar : Toolbar = findViewById(R.id.toolbar)
+        val addFriendButton = findViewById(R.id.addFriendButton) as Button
+        // set on-click listener
+        addFriendButton.setOnClickListener {
+            addFriend(activeUser.getId())
+        }
+        var toolbar : Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
@@ -45,15 +50,16 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
     }
 
     private fun populateLeaderboard(activeUser: User){
-        val friends = activeUser.friends
-        Log.e("HERE",friends[0].firstName)
-        friends.sortedBy { friend -> friend.totalPoints }
-        friends.reverse()
-
+        var friendsList = activeUser.friends
+        friendsList.removeAll {  friend-> friend.firstName=="You"}
+        friendsList.add(User("You","","","","-10"))
+        friendsList.last().changePoints(activeUser.totalPoints)
+        friendsList.sortBy { friend -> friend.totalPoints }
+        friendsList.reverse()
         // Populate in list view.
-        val stringsForLeaderboard: MutableList<String> = mutableListOf()
-        var count = 1
-        for(friend in friends){
+        var stringsForLeaderboard: MutableList<String> = mutableListOf()
+        var count: Int = 1
+        for(friend in friendsList){
             stringsForLeaderboard.add("${count}. ${friend.firstName} ${friend.lastName}(Total points: ${friend.totalPoints})")
             count += 1
         }
@@ -62,8 +68,9 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         listView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,
             stringsForLeaderboard)
         layout.addView(listView)
-        listView.setOnItemClickListener { _, _, position, _ ->
-            val friendToFocus = friends[position]
+        listView.setOnItemClickListener { parent, view, position, id ->
+
+            val friendToFocus = friendsList[position]
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Remove Friend?")
             builder.setMessage("Would you like to remove ${friendToFocus.firstName} ${friendToFocus.lastName}?")
@@ -120,6 +127,7 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
     private fun addFriend(userId:String, listOfUsers:List<User>){
         val friendIdEditText = findViewById<EditText>(R.id.friendId)
         val friendId = friendIdEditText.text.toString()
+        val listOfUsers = getUsers()
         if(userId!==friendId) {
             for(user in listOfUsers){
                 if(user.getId()==friendId){
@@ -130,6 +138,9 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
                     return
                 }
             }
+        }else{
+            // They tried to add themselves as a friend. Sad.
+            Toast.makeText(this,"You can not add yourself as a friend.",Toast.LENGTH_LONG)
         }
         Toast.makeText(this,"Could not find a user with the id: $friendId.",Toast.LENGTH_LONG)
     }

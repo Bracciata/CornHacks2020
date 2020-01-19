@@ -22,29 +22,31 @@ class RewardsActivity : AppCompatActivity() {
 
     private fun setupRewards() {
         setContentView(R.layout.activity_rewards)
-        var toolbar : Toolbar = findViewById(R.id.toolbarRewards)
+        var toolbar: Toolbar = findViewById(R.id.toolbarRewards)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        val constraintLayout = findViewById(R.id.relativeLayoutRewardsList) as RelativeLayout
+        val constraintLayout = findViewById<RelativeLayout>(R.id.relative_layout_rewards_list)
         val listView = ListView(this)
         val rewards = getRewards()
         val rewardStrings = mutableListOf<String>()
         for (reward in rewards) {
-            rewardStrings.add("Buy ${reward.title} for ${reward.cost} tokens")
+            rewardStrings.add("Buy ${reward.title} for ${reward.saleCost} points")
         }
 
-            listView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,
-                rewardStrings) as ListAdapter?
-        listView.setOnItemClickListener { parent, view, position, id ->
+        listView.adapter = ArrayAdapter(
+            this, android.R.layout.simple_list_item_1,
+            rewardStrings
+        )
+        listView.setOnItemClickListener { _, _, position, _ ->
 
-           val rewardToFocus = rewards[position]
+            val rewardToFocus = rewards[position]
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Purchase?")
-            builder.setMessage("Would you like to purchase ${rewardToFocus.title} for ${rewardToFocus.saleCost}?")
-            builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+            builder.setMessage("Would you like to purchase ${rewardToFocus.title} for ${rewardToFocus.saleCost} points?")
+            builder.setPositiveButton(android.R.string.yes) { dialog, _ ->
                 var user = getSignedInUser()
                 if (user !== null) {
-                    if(user.points >= rewardToFocus.saleCost) {
+                    if (user.points >= rewardToFocus.saleCost) {
 
                         Toast.makeText(
                             applicationContext,
@@ -54,15 +56,18 @@ class RewardsActivity : AppCompatActivity() {
                         // Update list of users and save.
                         saveSignedOnUser(user)
                         saveListOfUsers(user)
-                    }else{
+                    } else {
                         Toast.makeText(
                             applicationContext,
-                            "You do not have enough points for ${rewardToFocus.title}", Toast.LENGTH_LONG
+                            "You do not have enough points for ${rewardToFocus.title}",
+                            Toast.LENGTH_LONG
                         ).show()
                     }
-                }else{
-                    Toast.makeText(applicationContext,
-                        "You need to log in first!", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        "You need to log in first!", Toast.LENGTH_SHORT
+                    ).show()
 
                 }
                 dialog.dismiss()
@@ -77,58 +82,68 @@ class RewardsActivity : AppCompatActivity() {
             builder.show()
 
         }
-    constraintLayout.addView(listView)
+        constraintLayout.addView(listView)
 
     }
-    fun saveSignedOnUser(userActive:User){
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+
+    private fun saveSignedOnUser(userActive: User) {
+        val sharedPreferences: SharedPreferences =
+            this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
         val usersJson = Gson().toJson(userActive)
-        editor.putString("active_user_key",usersJson)
+        editor.putString("active_user_key", usersJson)
         editor.commit()
     }
-    fun saveListOfUsers(currentUser:User){
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-        val userJson = sharedPreferences.getString("users_key","[]")
-        val userList:  MutableList<User> = Gson().fromJson(userJson, Array<User>::class.java).toMutableList()
-        for (user in userList){
-            if(user.email == currentUser.email){
+
+    private fun saveListOfUsers(currentUser: User) {
+        val sharedPreferences: SharedPreferences =
+            this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+        val userJson = sharedPreferences.getString("users_key", "[]")
+        val userList: MutableList<User> =
+            Gson().fromJson(userJson, Array<User>::class.java).toMutableList()
+        for (user in userList) {
+            if (user.email == currentUser.email) {
                 user.redemptionHistory = currentUser.redemptionHistory
                 user.points = currentUser.points
             }
         }
-        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
         val usersJson = Gson().toJson(userList)
-        editor.putString("users_key",usersJson)
+        editor.putString("users_key", usersJson)
         editor.commit()
     }
-    fun getSignedInUser(): User{
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-        val userJson = sharedPreferences.getString("active_user_key","{}")
-        val user :  User = Gson().fromJson(userJson, User::class.java)
-        return user
+
+    fun getSignedInUser(): User {
+        val sharedPreferences: SharedPreferences =
+            this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+        val userJson = sharedPreferences.getString("active_user_key", "{}")
+        return Gson().fromJson(userJson, User::class.java)
     }
+
     // actions on click menu items
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         android.R.id.home -> {
             // Open Camera
             returnToMain()
             true
-        }else ->{
+        }
+        else -> {
             // If we got here, the user's action was not recognized.
             // Invoke the superclass to handle it.
             super.onOptionsItemSelected(item)
         }
     }
-    private fun returnToMain(){
+
+    private fun returnToMain() {
         val intent = Intent(this, MainActivity::class.java)
         // start your next activity
         startActivity(intent)
     }
-    fun getRewards(): MutableList<Reward> {
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+
+    private fun getRewards(): MutableList<Reward> {
+        val sharedPreferences: SharedPreferences =
+            this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
         val rewardsJson = sharedPreferences.getString("rewards_key", "{}")
-        val rewardList: MutableList<Reward> = Gson().fromJson(rewardsJson, Array<Reward>::class.java).toMutableList()
-        return rewardList
+        return Gson().fromJson(rewardsJson, Array<Reward>::class.java).toMutableList()
     }
 }

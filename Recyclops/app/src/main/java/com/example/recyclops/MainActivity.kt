@@ -52,20 +52,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun createRewards():List<Reward>{
-        val rewards =  mutableListOf<Reward>()
+        // Creates template reward items.
+        var rewards =  mutableListOf<Reward>()
         // If sale price is equal to price or greater than it is considered not on sale.
-        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
-        rewards.add(Reward(1221,234, "Amazon 1000 Dollar Gift Card"))
-        rewards.add(Reward(40,10, "Reusable Water Bottle"))
-        rewards.add(Reward(8,8, "Metal Straw"))
-        rewards.add(Reward(10,1, "Donate A Tree"))
+        rewards.add(Reward(500,500, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(90000,90000, "Amazon 1000 Dollar Gift Card"))
+        rewards.add(Reward(1500,1500, "Reusable Water Bottle"))
+        rewards.add(Reward(300,300, "Metal Straw"))
+        rewards.add(Reward(250,50, "Donate A Tree"))
         updateRewards(rewards)
-        getRewards()
         return rewards
     }
 
     private fun createUsers(rewards: List<Reward>):List<User>{
-        val users =  mutableListOf<User>()
+        // Creates template users for leaderboards.
+        var users =  mutableListOf<User>()
         users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
         users.add(User("Dick","Carson","DickC@unl.edu","Acting2019","2"))
         users[0].addFriend(users[1])
@@ -81,6 +82,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         users[4].changePoints(14)
         users[1].changePoints(7)
         users[2].changePoints(11)
+        users[0].changePoints(90900)
 
         updateUsers(users)
         return users
@@ -148,7 +150,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-
+        // Add selections for on-click events from the drop-down menu.
         val drawerLayout:DrawerLayout = findViewById(R.id.drawer_layout)
 
         when (item.itemId) {
@@ -168,12 +170,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Toast.makeText(this, "Rewards clicked", Toast.LENGTH_SHORT).show()
                 openRewards()
             }
+          R.id.nav_guide -> {
+                Toast.makeText(this, "Guide clicked", Toast.LENGTH_SHORT).show()
+                openGuide()
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 
     private fun startCamera() {
+        // Basic camera screen configuration.
         val metrics = DisplayMetrics().also { textureView.display.getRealMetrics(it) }
         val screenSize = Size(metrics.widthPixels, metrics.heightPixels)
         val screenAspectRatio = Rational(1, 1)
@@ -217,6 +224,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun checkResult(resultText: String){
+        // Check to see if the object captured by the camera is recyclable.
         val predictedTextView = findViewById<TextView>(R.id.predictedTextView)
         predictedTextView.text=resultText
         var resultNumber = resultText.split(".")[1]
@@ -261,6 +269,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun recycleItem(signedInUser:User){
         signedInUser.changePoints(1)
+        // Save user and save list of users.
+        updateActiveUser(signedInUser)
+
+    }
+    fun updateActiveUser(activeUser:User){
+        val users = getUsers()
+        for (user in users){
+            if(user.email==activeUser.email){
+                user.points=activeUser.points
+                updateUser(activeUser)
+                updateUsers(users)
+                return
+            }
+        }
+
+    }
+    fun updateUser(activeUser:User){
+            val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+            val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+            val usersJson = Gson().toJson(activeUser)
+            editor.putString("active_user_key",usersJson)
+            editor.commit()
+
     }
 
     private fun isTermOnRecycleList(term: String):Boolean{
@@ -324,32 +355,32 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun openLogIn(){
         val intent = Intent(this, LogInActivity::class.java)
-        // start your next activity
+        // Start your next activity.
         startActivity(intent)
     }
 
     private fun openMap() {
         val intent = Intent(this, MapActivity::class.java)
-        // start your next activity
+        // Start your next activity
         startActivity(intent)
     }
 
     private fun openLeaderboard() {
         val intent = Intent(this, LeaderboardsAndFriendsActivity::class.java)
-        // start your next activity
+        // Start your next activity.
         startActivity(intent)
     }
 
     private fun openRewards(){
         val intent = Intent(this, RewardsActivity::class.java)
-        // start your next activity
+        // Start your next activity.
         startActivity(intent)
     }
 
-    //TODO
+    
     private fun openGuide(){
-        val intent = Intent(this, DisclaimerActivity::class.java)
-        // start your next activity
+        val intent = Intent(this, GuideActivity::class.java)
+        // Start your next activity.
         startActivity(intent)
     }
 

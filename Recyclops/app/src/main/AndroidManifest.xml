@@ -27,12 +27,11 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key"/>
+            android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapActivity"
-            android:label="@string/title_activity_maps">
-        </activity>
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
         <activity android:name=".DisclaimerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,29 +40,26 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="Main">
-        </activity>
+            android:label="Main"></activity>
         <activity
             android:name=".LogInActivity"
-            android:label="Login">
-        </activity>
+            android:label="Log In"></activity>
         <activity
             android:name=".RegisterActivity"
-            android:label="Register">
-        </activity>
+            android:label="Register"></activity>
         <activity
             android:name=".ProfileActivity"
-            android:label="Profile">
-        </activity>
+            android:label="Profile"></activity>
         <activity
             android:name=".LeaderboardsAndFriendsActivity"
-            android:label="Leaderboards">
-        </activity>
+            android:label="Leaderboards"></activity>
         <activity
             android:name=".RewardsActivity"
-            android:label="Rewards">
-        </activity>
-          
+            android:label="Rewards"></activity>
+        <activity
+            android:name=".GuideActivity"
+            android:label="Guide"></activity>
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

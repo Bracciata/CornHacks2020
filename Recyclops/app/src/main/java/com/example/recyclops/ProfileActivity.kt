@@ -30,6 +30,11 @@ class ProfileActivity : AppCompatActivity() {
         val activeUser:User = getSignedInUser()
         populateUserInformation(activeUser)
         populateRewardsRedemptionHistory(activeUser)
+        val logOutButton = findViewById(R.id.logoutButton) as Button
+        // set on-click listener
+        logOutButton.setOnClickListener {
+            logout()
+        }
     }
 
     // actions on click menu items
@@ -62,11 +67,11 @@ class ProfileActivity : AppCompatActivity() {
 
     fun logout(){
         // Reset signed in user and open main.
-            val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-            val editor: SharedPreferences.Editor =  sharedPreferences.edit()
-            val emptyUser = "{}"
-            editor.putString("active_user_key", emptyUser)
-            editor.apply()
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+        val emptyUser = "{}"
+        editor.putString("active_user_key", emptyUser)
+        editor.commit()
         returnToMain()
     }
 

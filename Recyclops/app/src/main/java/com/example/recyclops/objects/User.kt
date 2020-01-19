@@ -21,7 +21,7 @@ class User(val fName:String, var lName:String,val emailAdd:String,var passwordHa
         return userId;
     }
     fun checkPassword(passwordAttempt:String):Boolean{
-        return passwordAttempt==password
+        return passwordAttempt == password
     }
     fun addFriend(friend:User){
         friends.add(friend)
