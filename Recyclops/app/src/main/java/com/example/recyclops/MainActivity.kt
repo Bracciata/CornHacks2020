@@ -1,5 +1,6 @@
 package com.example.recyclops
 
+import android.content.ClipData
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -18,9 +19,24 @@ import androidx.camera.core.*
 import androidx.core.app.ActivityCompat
 import java.io.ByteArrayOutputStream
 import android.content.Intent
+import android.content.SharedPreferences
+import com.google.gson.Gson
+import android.content.Context
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.TextView
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.view.menu.MenuView
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
+import kotlin.reflect.typeOf
+import org.w3c.dom.Text
+import java.lang.Exception
 
-
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private var lensFacing = CameraX.LensFacing.BACK
     private val TAG = "MainActivity"
@@ -29,12 +45,41 @@ class MainActivity : AppCompatActivity() {
     private val REQUIRED_PERMISSIONS = arrayOf("android.permission.CAMERA")
 
     private var tfLiteClassifier: TFLiteClassifier = TFLiteClassifier(this@MainActivity)
+    private val sharedPrefFile = "kotlinsharedpreference"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         openMain()
+        val rewards = createRewards()
+        val users = createUsers(rewards)
     }
+    private fun createRewards():List<Reward>{
+        var rewards =  mutableListOf<Reward>()
+        // If sale price is equal to price or greater than it is considered not on sale.
+        rewards.add(Reward(7,4, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(1221,234, "Amazon 1000 Dollar Gift Card"))
+        rewards.add(Reward(40,10, "Reusable Water Bottle"))
+        rewards.add(Reward(8,8, "Metal Straw"))
+        rewards.add(Reward(10,1, "Donate A Tree"))
+        updateRewards(rewards)
+        return rewards
+    }
+    private fun createUsers(rewards: List<Reward>):List<User>{
+        var users =  mutableListOf<User>()
+        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
+        users.add(User("Dick","Carson","DickC@unl.edu","Acting2019","2"))
+        users[0].addFriend(users[1])
+        users[0].redeemPrize(rewards[0])
+        users[0].redeemPrize(rewards[1])
+        users[0].redeemPrize(rewards[3])
+        users.add(User("Alexis","Maas","MaasA@unl.edu","Acting2019","3"))
+        users[0].addRequest(users[2].getId())
+        // This user wil be added as a friend when demoing
+        users.add(User("FriendFirstNameToAdd","MEEEEE","Faker@unl.edu","Acting2019","4"))
 
+        updateUsers(users)
+        return users
+    }
 
     private fun openMain() {
         // Open camera screen
@@ -53,6 +98,74 @@ class MainActivity : AppCompatActivity() {
             .initialize()
             .addOnSuccessListener { }
             .addOnFailureListener { e -> Log.e(TAG, "Error in setting up the classifier.", e) }
+
+
+        var toolbar :Toolbar= findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        var drawerLayout:DrawerLayout = findViewById(R.id.drawer_layout)
+        var navView : NavigationView = findViewById(R.id.nav_view)
+
+        val toggle = ActionBarDrawerToggle(
+            this, drawerLayout, toolbar, R.string.app_name, 0
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        navView.setNavigationItemSelectedListener(this)
+        invalidateOptionsMenu()
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) : Boolean {
+        try {
+
+
+            var item: MenuItem = menu.findItem(R.id.nav_profile)
+            // Check if user is signed in and if so add their name to the text.
+            // If not then state not logged in.
+            var nameNavText: TextView = findViewById(R.id.nameNav)
+            var pointsNavText: TextView = findViewById(R.id.pointsNav)
+            var user = getSignedInUser()
+            if (user !== null) {
+                // Add the user information near the nav drawer
+                nameNavText.text = "${user.firstName} ${user.lastName}"
+                pointsNavText.text = "Points: ${user.points}"
+                // Change the text of the profile log in item based on whether or not signed in
+                item.setTitle("Profile")
+            } else {
+                // State not logged in
+                nameNavText.text = "Not signed in"
+                pointsNavText.text = "Sign in to save your storage"
+                // Change the text of the profile log in item based on whether or not signed in
+                item.setTitle("Log In or Register")
+            }
+        }catch (e:Exception){
+
+        }
+  return super.onPrepareOptionsMenu(menu);
+}
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        // TODO: Update this
+        var drawerLayout:DrawerLayout = findViewById(R.id.drawer_layout)
+
+        when (item.itemId) {
+            R.id.nav_profile -> {
+                Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show()
+            }
+            R.id.nav_rewards -> {
+                Toast.makeText(this, "Messages clicked", Toast.LENGTH_SHORT).show()
+            }
+            R.id.nav_leaderboards -> {
+                Toast.makeText(this, "Friends clicked", Toast.LENGTH_SHORT).show()
+            }
+            R.id.nav_view -> {
+                Toast.makeText(this, "Update clicked", Toast.LENGTH_SHORT).show()
+            }
+            R.id.nav_map -> {
+                Toast.makeText(this, "Sign out clicked", Toast.LENGTH_SHORT).show()
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
     }
 
 
@@ -85,7 +198,6 @@ class MainActivity : AppCompatActivity() {
             setImageReaderMode(ImageAnalysis.ImageReaderMode.ACQUIRE_LATEST_IMAGE)
         }.build()
 
-
         val analyzerUseCase = ImageAnalysis(analyzerConfig)
         analyzerUseCase.analyzer =
             ImageAnalysis.Analyzer { image: ImageProxy, rotationDegrees: Int ->
@@ -94,13 +206,32 @@ class MainActivity : AppCompatActivity() {
 
                 tfLiteClassifier
                     .classifyAsync(bitmap)
-                    .addOnSuccessListener { resultText -> predictedTextView?.text = resultText }
-                    .addOnFailureListener { error -> }
+                    .addOnSuccessListener { resultText ->checkResult(resultText.toString())}
+                    .addOnFailureListener { error -> Log.e("IMAGE ERROR",error.toString())}
 
             }
         CameraX.bindToLifecycle(this, preview, analyzerUseCase)
     }
 
+    fun checkResult(resultText: String){
+        Log.d(resultText,"here")
+        val predictedTextView = findViewById(R.id.predictedTextView) as TextView
+        predictedTextView.text=resultText
+        var resultNumber = resultText.split(".")[1]
+        resultNumber = "."+resultNumber
+        var floatResults = resultNumber.toFloat()
+        // Note .8 is a magic number representing the odds of it being correct are over 80%
+        if(floatResults>=.8){
+            // Check if on recyclable list
+            val remainder = resultText.split("\n")[0].substring(14)
+            if(isTermOnRecycleList(remainder)){
+
+            }
+        }
+    }
+    fun isTermOnRecycleList(term: String):Boolean{
+
+    }
     fun ImageProxy.toBitmap(): Bitmap {
         val yBuffer = planes[0].buffer // Y
         val uBuffer = planes[1].buffer // U
@@ -148,7 +279,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun openProfileConfirmed(){
-        // val intent = Intent(this, Profile::class.java)
+         val intent = Intent(this, ProfileActivity::class.java)
         // start your next activity
         startActivity(intent)
     }
@@ -193,6 +324,38 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
+    fun updateRewards(rewards:List<Reward>){
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+        val rewardsJson = Gson().toJson(rewards)
+        editor.putString("rewards_key",rewardsJson)
+    }
+    fun getRewards():List<Reward>{
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val rewardsJson = sharedPreferences.getString("rewards_key","{}")
+        val rewardList:  MutableList<Reward> = Gson().fromJson(rewardsJson, Array<Reward>::class.java).toMutableList()
+        return rewardList
+
+    }
+    fun updateUsers(users:List<User>){
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+        val usersJson = Gson().toJson(users)
+        editor.putString("users_key",usersJson)
+    }
+    fun getUsers():List<User>{
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val userJson = sharedPreferences.getString("users_key","{}")
+        val userList:  MutableList<User> = Gson().fromJson(userJson, Array<User>::class.java).toMutableList()
+        return userList
+    }
+    fun getSignedInUser(): User{
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val userJson = sharedPreferences.getString("active_user_key","{}")
+        val user :  User = Gson().fromJson(userJson, User::class.java)
+        return user
+    }
+
 
 
     override fun onDestroy() {
