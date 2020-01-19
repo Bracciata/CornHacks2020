@@ -4,13 +4,17 @@ import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.location.Address
 import android.location.Geocoder
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
-
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -19,11 +23,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import java.io.IOException
-import android.location.Address
-import android.view.MenuItem
-import androidx.appcompat.widget.Toolbar
-import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.*
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MapActivity : AppCompatActivity(), OnMapReadyCallback,
@@ -53,7 +52,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         }
         createLocationRequest()
 
-        var toolbar : Toolbar = findViewById(R.id.toolbar)
+        var toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -64,13 +63,15 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
             // Open Camera
             returnToMain()
             true
-        }else ->{
+        }
+        else -> {
             // If we got here, the user's action was not recognized.
             // Invoke the superclass to handle it.
             super.onOptionsItemSelected(item)
         }
     }
-    private fun returnToMain(){
+
+    private fun returnToMain() {
         val intent = Intent(this, MainActivity::class.java)
         // start your next activity
         startActivity(intent)
@@ -82,10 +83,16 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
     }
 
     private fun setUpMap() {
-        if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
             return
         }
 
@@ -122,7 +129,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
             if (null != addresses && addresses.isNotEmpty()) {
                 address = addresses[0]
                 for (i in 0 until address.maxAddressLineIndex) {
-                    addressText += if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(i)
+                    addressText += if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(
+                        i
+                    )
                 }
             }
         } catch (e: IOException) {
@@ -133,14 +142,23 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
     }
 
     private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
                 arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE)
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
             return
         }
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null /* Looper */)
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            null /* Looper */
+        )
     }
 
     private lateinit var locationCallback: LocationCallback
@@ -171,8 +189,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
                 try {
                     // Show the dialog by calling startResolutionForResult(),
                     // and check the result in onActivityResult().
-                    e.startResolutionForResult(this@MapActivity,
-                        REQUEST_CHECK_SETTINGS)
+                    e.startResolutionForResult(
+                        this@MapActivity,
+                        REQUEST_CHECK_SETTINGS
+                    )
                 } catch (sendEx: IntentSender.SendIntentException) {
                     // Ignore the error.
                 }
@@ -217,7 +237,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         map.addMarker(MarkerOptions().position(recyclingDropOff).title("Recycling Drop-off Location"))
         val sadfoffIron = LatLng(40.870, -96.782)  // this is Sadfoff Iron & Metal Company
         map.addMarker(MarkerOptions().position(sadfoffIron).title("Sadfoff Iron & Metal Company"))
-        val neighborhoodRecycling = LatLng(40.795, -96.704)  // this is Neighborhood Recycling Drop-off
+        val neighborhoodRecycling =
+            LatLng(40.795, -96.704)  // this is Neighborhood Recycling Drop-off
         map.addMarker(MarkerOptions().position(neighborhoodRecycling).title("Neighborhood Recycling Drop-off"))
 
         map.uiSettings.isZoomControlsEnabled = true

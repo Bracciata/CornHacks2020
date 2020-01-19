@@ -3,11 +3,14 @@ package com.example.recyclops
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.gson.Gson
 
@@ -45,7 +48,7 @@ class RewardsActivity : AppCompatActivity() {
             builder.setMessage("Would you like to purchase ${rewardToFocus.title} for ${rewardToFocus.saleCost} points?")
             builder.setPositiveButton(android.R.string.yes) { dialog, _ ->
                 var user = getSignedInUser()
-                if (user !== null) {
+                if (user.userIdentification !== "-1") {
                     if (user.points >= rewardToFocus.saleCost) {
 
                         Toast.makeText(
@@ -74,7 +77,7 @@ class RewardsActivity : AppCompatActivity() {
 
             }
 
-            builder.setNegativeButton(android.R.string.no) { dialog, which ->
+            builder.setNegativeButton(android.R.string.no) { dialog, _ ->
                 dialog.dismiss()
 
             }

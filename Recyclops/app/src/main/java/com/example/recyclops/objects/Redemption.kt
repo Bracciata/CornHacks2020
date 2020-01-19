@@ -1,10 +1,10 @@
-package com.example.recyclops;
+package com.example.recyclops
 
-import java.util.Date;
+import java.util.*
 
-public class Redemption (reward:Reward){
-    var rewardRedeemed:Reward = reward
+class Redemption(reward: Reward) {
+    var rewardRedeemed: Reward = reward
     // Save cost separately because the cost may change in the future
-    var purchaseCost:Int=reward.cost
-    var redemptionTime:Date=Date()
+    var purchaseCost: Int = reward.cost
+    var redemptionTime: Date = Date()
 }

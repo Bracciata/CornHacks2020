@@ -2,10 +2,12 @@ package com.example.recyclops
 
 import android.content.Context
 import android.content.res.AssetManager
+import android.graphics.Bitmap
 import android.os.SystemClock
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks.call
+import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.gpu.GpuDelegate
 import java.io.FileInputStream
 import java.io.IOException
@@ -18,8 +20,6 @@ import java.util.concurrent.Callable
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
-import android.graphics.Bitmap
-import org.tensorflow.lite.Interpreter
 
 class TFLiteClassifier(private val context: Context) {
 

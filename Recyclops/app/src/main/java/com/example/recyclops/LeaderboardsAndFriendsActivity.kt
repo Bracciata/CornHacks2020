@@ -4,11 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.gson.Gson
 
@@ -25,12 +25,12 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         val activeUser = getSignedInUser()
         populateRequestList(activeUser)
         populateLeaderboard(activeUser)
-        val addFriendButton = findViewById(R.id.addFriendButton) as Button
+        val addFriendButton = findViewById<Button>(R.id.addFriendButton)
         // set on-click listener
         addFriendButton.setOnClickListener {
             addFriend(activeUser.getId())
         }
-        var toolbar : Toolbar = findViewById(R.id.toolbar)
+        var toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
@@ -41,44 +41,48 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
             // Open Camera
             returnToMain()
             true
-        }else ->{
+        }
+        else -> {
             // If we got here, the user's action was not recognized.
             // Invoke the superclass to handle it.
             super.onOptionsItemSelected(item)
         }
     }
 
-    private fun populateLeaderboard(activeUser: User){
+    private fun populateLeaderboard(activeUser: User) {
         var friendsList = activeUser.friends
-        friendsList.removeAll {  friend-> friend.firstName=="You"}
-        friendsList.add(User("You","","","","-10"))
+        friendsList.removeAll { friend -> friend.firstName == "You" }
+        friendsList.add(User("You", "", "", "", "-10"))
         friendsList.last().changePoints(activeUser.totalPoints)
         friendsList.sortBy { friend -> friend.totalPoints }
         friendsList.reverse()
         // Populate in list view.
         var stringsForLeaderboard: MutableList<String> = mutableListOf()
         var count: Int = 1
-        for(friend in friendsList){
+        for (friend in friendsList) {
             stringsForLeaderboard.add("${count}. ${friend.firstName} ${friend.lastName}(Total points: ${friend.totalPoints})")
             count += 1
         }
         val layout = findViewById<RelativeLayout>(R.id.leaderboard_layout)
         val listView = ListView(this)
-        listView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,
-            stringsForLeaderboard)
+        listView.adapter = ArrayAdapter(
+            this, android.R.layout.simple_list_item_1,
+            stringsForLeaderboard
+        )
         layout.addView(listView)
-        listView.setOnItemClickListener { parent, view, position, id ->
+        listView.setOnItemClickListener { _, _, position, _ ->
 
             val friendToFocus = friendsList[position]
             val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle("Remove Friend?")
             builder.setMessage("Would you like to remove ${friendToFocus.firstName} ${friendToFocus.lastName}?")
             builder.setPositiveButton(android.R.string.yes) { dialog, _ ->
-                        activeUser.friends.remove(friendToFocus)
-                        Toast.makeText(
-                            applicationContext,
-                            "Removed ${friendToFocus.firstName} ${friendToFocus.lastName}!", Toast.LENGTH_SHORT
-                        ).show()
+                activeUser.friends.remove(friendToFocus)
+                Toast.makeText(
+                    applicationContext,
+                    "Removed ${friendToFocus.firstName} ${friendToFocus.lastName}!",
+                    Toast.LENGTH_SHORT
+                ).show()
                 // Update list of users and save.
                 saveSignedOnUser(activeUser)
                 saveListOfUsers(activeUser)
@@ -87,7 +91,7 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
                 reload()
             }
 
-            builder.setNegativeButton(android.R.string.no) { dialog, which ->
+            builder.setNegativeButton(android.R.string.no) { dialog, _ ->
                 Toast.makeText(
                     applicationContext,
                     "Cancelled", Toast.LENGTH_SHORT
@@ -97,91 +101,104 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
             builder.show()
         }
     }
-    private fun reload(){
+
+    private fun reload() {
         val intent = Intent(this, LeaderboardsAndFriendsActivity::class.java)
         // start your next activity
         startActivity(intent)
     }
 
-    private fun getUsers():List<User>{
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-        val userJson = sharedPreferences.getString("users_key","{}")
+    private fun getUsers(): List<User> {
+        val sharedPreferences: SharedPreferences =
+            this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+        val userJson = sharedPreferences.getString("users_key", "{}")
         return Gson().fromJson(userJson, Array<User>::class.java).toList()
     }
 
-    private fun getSignedInUser(): User{
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,
-            Context.MODE_PRIVATE)
-        val userJson = sharedPreferences.getString("active_user_key","{}")
+    private fun getSignedInUser(): User {
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(
+            sharedPrefFile,
+            Context.MODE_PRIVATE
+        )
+        val userJson = sharedPreferences.getString("active_user_key", "{}")
         return Gson().fromJson(userJson, User::class.java)
     }
 
-    private fun returnToMain(){
+    private fun returnToMain() {
         val intent = Intent(this, MainActivity::class.java)
         // start your next activity
         startActivity(intent)
     }
 
     @SuppressLint("ShowToast")
-    private fun addFriend(userId:String){
+    private fun addFriend(userId: String) {
         val friendIdEditText = findViewById<EditText>(R.id.friend_id_edit_text)
         val friendId = friendIdEditText.text.toString()
         val listOfUsers = getUsers()
-        if(userId!==friendId) {
-            for(user in listOfUsers){
-                if(userId==friendId){
+        if (userId !== friendId) {
+            for (user in listOfUsers) {
+                if (userId == friendId) {
                     user.addRequest(userId)
-                    Toast.makeText(this,"Sent ${user.firstName} a friend request.",Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this,
+                        "Sent ${user.firstName} a friend request.",
+                        Toast.LENGTH_LONG
+                    ).show()
                     // Save users to add request
                     updateUsers(listOfUsers)
                     return
                 }
             }
-        }else{
+        } else {
             // They tried to add themselves as a friend. Sad.
-            Toast.makeText(this,"You can not add yourself as a friend.",Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "You can not add yourself as a friend.", Toast.LENGTH_LONG).show()
         }
-        Toast.makeText(this,"Could not find a user with the id: $friendId.",Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Could not find a user with the id: $friendId.", Toast.LENGTH_LONG)
+            .show()
     }
 
-    private fun updateUsers(users: List<User>){
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+    private fun updateUsers(users: List<User>) {
+        val sharedPreferences: SharedPreferences =
+            this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
         val usersJson = Gson().toJson(users)
         editor.putString("users_key", usersJson)
         editor.apply()
     }
 
-    private fun populateRequestList(activeUser: User){
+    private fun populateRequestList(activeUser: User) {
         val layout = findViewById<RelativeLayout>(R.id.requestLayout)
         val listView = ListView(this)
         val requestStrings: MutableList<String> = mutableListOf()
-        for(request in activeUser.friendRequestsIncomingUserIds){
+        for (request in activeUser.friendRequestsIncomingUserIds) {
             requestStrings.add("Click to accept or reject the user with the id $request")
         }
         val users = getUsers()
-        listView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,
-        requestStrings)
+        listView.adapter = ArrayAdapter(
+            this, android.R.layout.simple_list_item_1,
+            requestStrings
+        )
         listView.setOnItemClickListener { _, _, position, _ ->
 
             val requestToFocus = activeUser.friendRequestsIncomingUserIds[position]
             val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
             builder.setTitle("Add friend?")
             builder.setMessage("Would you like to add the user with the ID: ${requestToFocus}?")
-            builder.setPositiveButton(android.R.string.yes) { dialog, which ->
-                        for(user in users) {
-                            if(user.getId()==requestToFocus) {
-                                activeUser.addFriend(user)
-                                activeUser.friendRequestsIncomingUserIds.removeAt(position)
-                                Toast.makeText(
-                                    applicationContext,
-                                    "Added ${user.firstName} ${user.lastName} as friend!", Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                        // Update list of users and save.
-                        saveSignedOnUser(activeUser)
-                        saveListOfUsers(activeUser)
+            builder.setPositiveButton(android.R.string.yes) { dialog, _ ->
+                for (user in users) {
+                    if (user.getId() == requestToFocus) {
+                        activeUser.addFriend(user)
+                        activeUser.friendRequestsIncomingUserIds.removeAt(position)
+                        Toast.makeText(
+                            applicationContext,
+                            "Added ${user.firstName} ${user.lastName} as friend!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                // Update list of users and save.
+                saveSignedOnUser(activeUser)
+                saveListOfUsers(activeUser)
                 reload()
 
                 dialog.dismiss()
@@ -191,8 +208,8 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
             builder.setNegativeButton(android.R.string.no) { dialog, _ ->
                 activeUser.friendRequestsIncomingUserIds.removeAt(position)
                 Toast.makeText(
-                        applicationContext,
-                "Removed request from $requestToFocus", Toast.LENGTH_SHORT
+                    applicationContext,
+                    "Removed request from $requestToFocus", Toast.LENGTH_SHORT
                 ).show()
                 dialog.dismiss()
                 reload()
@@ -209,26 +226,31 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         }
         layout.addView(listView)
     }
-    private fun saveSignedOnUser(userActive:User){
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+
+    private fun saveSignedOnUser(userActive: User) {
+        val sharedPreferences: SharedPreferences =
+            this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
         val usersJson = Gson().toJson(userActive)
-        editor.putString("active_user_key",usersJson)
+        editor.putString("active_user_key", usersJson)
         editor.apply()
     }
-    private fun saveListOfUsers(currentUser:User){
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-        val userJson = sharedPreferences.getString("users_key","[]")
-        val userList:  MutableList<User> = Gson().fromJson(userJson, Array<User>::class.java).toMutableList()
-        for (user in userList){
-            if(user.email == currentUser.email){
+
+    private fun saveListOfUsers(currentUser: User) {
+        val sharedPreferences: SharedPreferences =
+            this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+        val userJson = sharedPreferences.getString("users_key", "[]")
+        val userList: MutableList<User> =
+            Gson().fromJson(userJson, Array<User>::class.java).toMutableList()
+        for (user in userList) {
+            if (user.email == currentUser.email) {
                 user.friends = currentUser.friends
                 user.friendRequestsIncomingUserIds = currentUser.friendRequestsIncomingUserIds
             }
         }
-        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
         val usersJson = Gson().toJson(userList)
-        editor.putString("users_key",usersJson)
+        editor.putString("users_key", usersJson)
         editor.apply()
     }
 
