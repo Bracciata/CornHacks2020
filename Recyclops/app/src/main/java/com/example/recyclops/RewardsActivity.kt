@@ -4,11 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.ListAdapter
-import android.widget.ListView
-import android.widget.RelativeLayout
 import android.view.MenuItem
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import com.google.gson.Gson
@@ -39,10 +36,8 @@ class RewardsActivity : AppCompatActivity() {
 
            val rewardToFocus = rewards[position]
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Recycle?")
-            builder.setMessage("Would you like to recycle the ${remainder} for one point?")
-            //builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
-
+            builder.setTitle("Purchase?")
+            builder.setMessage("Would you like to purchase ${rewardToFocus.title} for ${rewardToFocus.saleCost}?")
             builder.setPositiveButton(android.R.string.yes) { dialog, which ->
                 var user = getSignedInUser()
                 if (user !== null) {
