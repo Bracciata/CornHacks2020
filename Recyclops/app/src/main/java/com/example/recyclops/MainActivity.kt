@@ -1,37 +1,36 @@
 package com.example.recyclops
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.util.DisplayMetrics
-import android.util.Rational
-import android.util.Size
-import android.view.Surface
-import kotlinx.android.synthetic.main.activity_main.*
-import android.content.pm.PackageManager
-import android.graphics.*
-import android.os.Handler
-import android.os.HandlerThread
-import android.util.Log
-import androidx.core.content.ContextCompat
-import android.widget.Toast
-import androidx.camera.core.*
-import androidx.core.app.ActivityCompat
-import java.io.ByteArrayOutputStream
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import com.google.gson.Gson
-import android.content.Context
+import android.content.pm.PackageManager
+import android.graphics.*
+import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
+import android.util.DisplayMetrics
+import android.util.Log
+import android.util.Rational
+import android.util.Size
 import android.view.Menu
 import android.view.MenuItem
+import android.view.Surface
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.camera.core.*
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
-import java.lang.Exception
+import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_main.*
+import java.io.ByteArrayOutputStream
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private val recyclableItems = arrayOf(

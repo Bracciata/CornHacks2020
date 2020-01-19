@@ -12,23 +12,26 @@ class GuideActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guide)
         // Add the back button to the toolbar.
-        var toolbar : Toolbar = findViewById(R.id.toolbar)
+        var toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     }
+
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         android.R.id.home -> {
             // Open Camera
             returnToMain()
             true
-        }else ->{
+        }
+        else -> {
             // If we got here, the user's action was not recognized.
             // Invoke the superclass to handle it.
             super.onOptionsItemSelected(item)
         }
     }
-    private fun returnToMain(){
+
+    private fun returnToMain() {
         // Go back to the main camera screen.
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
