@@ -27,6 +27,11 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         var activeUser = getSignedInUser()
         populateRequestList(activeUser)
         populateLeaderboard(activeUser)
+        val addFriendButton = findViewById(R.id.addFriendButton) as Button
+        // set on-click listener
+        addFriendButton.setOnClickListener {
+            addFriend(activeUser.getId())
+        }
         var toolbar : Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -123,9 +128,10 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         // start your next activity
         startActivity(intent)
     }
-    private fun addFriend(userId:String, listOfUsers:List<User>){
+    private fun addFriend(userId:String){
         val friendIdEditText = findViewById(R.id.friendId) as EditText
         val friendId = friendIdEditText.text.toString()
+        val listOfUsers = getUsers()
         if(userId!==friendId) {
             for(user in listOfUsers){
                 if(user.getId()==friendId){
@@ -138,6 +144,7 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
             }
         }else{
             // They tried to add themselves as a friend. Sad.
+            Toast.makeText(this,"You can not add yourself as a friend.",Toast.LENGTH_LONG)
         }
         Toast.makeText(this,"Could not find a user with the id: $friendId.",Toast.LENGTH_LONG)
 
