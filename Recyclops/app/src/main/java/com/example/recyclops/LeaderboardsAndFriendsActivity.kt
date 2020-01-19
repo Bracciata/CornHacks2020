@@ -94,6 +94,7 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
         val editor: SharedPreferences.Editor =  sharedPreferences.edit()
         val usersJson = Gson().toJson(users)
         editor.putString("users_key", usersJson)
+        editor.commit()
     }
 
     private fun populateRequestList(activeUser: User){

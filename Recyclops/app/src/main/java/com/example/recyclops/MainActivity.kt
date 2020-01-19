@@ -406,8 +406,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun getRewards():List<Reward>{
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
         val rewardsJson = sharedPreferences.getString("rewards_key","[]")
-        Log.e("TOMMYPLEASE",rewardsJson.toString())
-
         val rewardList:  List<Reward> = Gson().fromJson(rewardsJson, Array<Reward>::class.java).toList()
         return rewardList
     }
@@ -421,7 +419,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     fun getUsers():List<User>{
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-        val userJson = sharedPreferences.getString("users_key","{}")
+        val userJson = sharedPreferences.getString("users_key","[]")
         val userList:  MutableList<User> = Gson().fromJson(userJson, Array<User>::class.java).toMutableList()
         return userList
     }
