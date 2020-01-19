@@ -48,7 +48,7 @@ class RewardsActivity : AppCompatActivity() {
             builder.setMessage("Would you like to purchase ${rewardToFocus.title} for ${rewardToFocus.saleCost} points?")
             builder.setPositiveButton(android.R.string.yes) { dialog, _ ->
                 var user = getSignedInUser()
-                if (user !== null) {
+                if (user.userIdentification !== "-1") {
                     if (user.points >= rewardToFocus.saleCost) {
 
                         Toast.makeText(
@@ -77,7 +77,7 @@ class RewardsActivity : AppCompatActivity() {
 
             }
 
-            builder.setNegativeButton(android.R.string.no) { dialog, which ->
+            builder.setNegativeButton(android.R.string.no) { dialog, _ ->
                 dialog.dismiss()
 
             }
