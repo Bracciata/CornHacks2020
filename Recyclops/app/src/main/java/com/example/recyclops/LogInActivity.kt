@@ -5,9 +5,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import com.google.gson.Gson
 
 
@@ -34,6 +36,27 @@ class LogInActivity : AppCompatActivity() {
         registerButton.setOnClickListener {
             openRegister()
         }
+        var toolbar : Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+    }
+    // actions on click menu items
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        android.R.id.home -> {
+            // Open Camera
+            returnToMain()
+            true
+        }else ->{
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
+    }
+    private fun returnToMain(){
+        val intent = Intent(this, MainActivity::class.java)
+        // start your next activity
+        startActivity(intent)
     }
     private fun getUsers():List<User>{
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,
