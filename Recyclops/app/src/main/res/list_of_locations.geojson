@@ -1,0 +1,124 @@
+{
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "phone": "(402) 476-8502",
+        "description": "recycling",
+        "name": "Green Quest Recycling",
+        "hours": "7:30AM-4:00PM"
+      },
+      "geometry": {
+        "coordinates": [
+          -96.715012,
+          40.808726
+        ],
+        "type": "Point"
+      },
+      "id": "address.2999979685585116"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "description": "recycling",
+        "name": "American Recycling",
+        "hours": "9:00AM-5:00PM",
+        "phone": "(402) 805-4985"
+      },
+      "geometry": {
+        "coordinates": [
+          -96.700353,
+          40.763257
+        ],
+        "type": "Point"
+      },
+      "id": "address.4235087016850956"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "description": "recycling",
+        "name": "Star City Recycling",
+        "hours": "7:00AM-5:00PM",
+        "phone": "(402) 890-4320"
+      },
+      "geometry": {
+        "coordinates": [
+          -96.671233,
+          40.841093
+        ],
+        "type": "Point"
+      },
+      "id": "address.521927264007150"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "description": "recycling",
+        "name": "Lincoln Recylcing",
+        "hours": "",
+        "phone": "(402) 441-8215"
+      },
+      "geometry": {
+        "coordinates": [
+          -96.687179,
+          40.838012
+        ],
+        "type": "Point"
+      },
+      "id": "address.5694593821630254"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "description": "recycling",
+        "name": "Recylcing Drop-off Location",
+        "hours": "24/7",
+        "phone": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -96.722677,
+          40.864649
+        ],
+        "type": "Point"
+      },
+      "id": "address.6737607440942294"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "description": "recycling",
+        "name": "Sadfoff Iron & Metal Company",
+        "hours": "7:30AM-4:30PM",
+        "phone": "(402) 470-2510"
+      },
+      "geometry": {
+        "coordinates": [
+          -96.782458,
+          40.869817
+        ],
+        "type": "Point"
+      },
+      "id": "address.8885951282322844"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "description": "recycling",
+        "name": "Neighborhood Recycling Drop Off",
+        "hours": "24/7",
+        "phone": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -96.704433,
+          40.795463
+        ],
+        "type": "Point"
+      },
+      "id": "address.8909089408516582"
+    }
+  ],
+  "type": "FeatureCollection"
+}
