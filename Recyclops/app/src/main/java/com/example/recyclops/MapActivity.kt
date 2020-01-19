@@ -1,5 +1,6 @@
 package com.example.recyclops
 
+import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
@@ -24,7 +25,8 @@ import androidx.appcompat.widget.Toolbar
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+class MapActivity : AppCompatActivity(), OnMapReadyCallback,
     GoogleMap.OnMarkerClickListener {
     override fun onMarkerClick(p0: Marker?) = false
 
@@ -110,21 +112,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     }
 
     private fun getAddress(latLng: LatLng): String {
-        val geocoder = Geocoder(this)
+        val geocode = Geocoder(this)
         val addresses: List<Address>?
         val address: Address?
         var addressText = ""
 
         try {
-            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-            if (null != addresses && !addresses.isEmpty()) {
+            addresses = geocode.getFromLocation(latLng.latitude, latLng.longitude, 1)
+            if (null != addresses && addresses.isNotEmpty()) {
                 address = addresses[0]
                 for (i in 0 until address.maxAddressLineIndex) {
                     addressText += if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(i)
                 }
             }
         } catch (e: IOException) {
-            Log.e("MapsActivity", e.localizedMessage)
+            Log.e("MapActivity", e.localizedMessage)
         }
 
         return addressText
@@ -169,7 +171,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
                 try {
                     // Show the dialog by calling startResolutionForResult(),
                     // and check the result in onActivityResult().
-                    e.startResolutionForResult(this@MapsActivity,
+                    e.startResolutionForResult(this@MapActivity,
                         REQUEST_CHECK_SETTINGS)
                 } catch (sendEx: IntentSender.SendIntentException) {
                     // Ignore the error.
@@ -178,16 +180,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
         }
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == REQUEST_CHECK_SETTINGS) {
-//            if (resultCode == Activity.RESULT_OK) {
-//                locationUpdateState = true
-//                startLocationUpdates()
-//            }
-//        }
-//    }
-//
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CHECK_SETTINGS) {
+            if (resultCode == Activity.RESULT_OK) {
+                locationUpdateState = true
+                startLocationUpdates()
+            }
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         fusedLocationClient.removeLocationUpdates(locationCallback)
@@ -199,17 +201,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
             startLocationUpdates()
         }
     }
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+
         val greenQuest = LatLng(40.809, -96.715)  // this is Green Quest Recycling
         map.addMarker(MarkerOptions().position(greenQuest).title("Green Quest Recycling"))
         val americanRecycling = LatLng(40.763, -96.700)  // this is American Recycling
@@ -224,12 +219,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
         map.addMarker(MarkerOptions().position(sadfoffIron).title("Sadfoff Iron & Metal Company"))
         val neighborhoodRecycling = LatLng(40.795, -96.704)  // this is Neighborhood Recycling Drop-off
         map.addMarker(MarkerOptions().position(neighborhoodRecycling).title("Neighborhood Recycling Drop-off"))
-
-
-
-
-
-
 
         map.uiSettings.isZoomControlsEnabled = true
         map.setOnMarkerClickListener(this)

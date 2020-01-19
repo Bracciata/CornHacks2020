@@ -1,6 +1,6 @@
 package com.example.recyclops
 
-import android.content.ClipData
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -25,65 +25,63 @@ import android.content.Context
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
-import android.widget.Button
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.view.menu.MenuView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
-import com.google.gson.GsonBuilder
-import kotlin.reflect.typeOf
-import org.w3c.dom.Text
 import java.lang.Exception
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-    val recyclableItems = arrayOf("paper", "newspaper", "cardboard", "plastic", "phonebooks",
+    private val recyclableItems = arrayOf(
+        "paper", "newspaper", "cardboard", "plastic", "phonebooks",
         "magazines", "mail", "tin", "aluminum", "steel", "glass", "soft drink", "beer bottles",
-        "wine", "liquor", "beer bottle", "beer glass", "plastic bag", "pop bottle", "water bottle")
+        "wine", "liquor", "beer bottle", "beer glass", "plastic bag", "pop bottle", "water bottle"
+    )
     private var lensFacing = CameraX.LensFacing.BACK
-    private val TAG = "MainActivity"
-
-    private val REQUEST_CODE_PERMISSIONS = 101
-    private val REQUIRED_PERMISSIONS = arrayOf("android.permission.CAMERA")
-
+    private val tag = "MainActivity"
+    private val requestPermission = 101
+    private val requiredPermission = arrayOf("android.permission.CAMERA")
     private var tfLiteClassifier: TFLiteClassifier = TFLiteClassifier(this@MainActivity)
     private val sharedPrefFile = "kotlinsharedpreference"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Opens the main activity and prepares the image recognition.
         openMain()
+        // Populates the application with template content
         val rewards = createRewards()
-        val users = createUsers(rewards)
+        createUsers(rewards)
     }
-    private fun createRewards():List<Reward>{
+
+    private fun createRewards(): List<Reward> {
         // Creates template reward items.
-        var rewards =  mutableListOf<Reward>()
+        val rewards = mutableListOf<Reward>()
         // If sale price is equal to price or greater than it is considered not on sale.
-        rewards.add(Reward(500,500, "Amazon 5 Dollar Gift Card"))
-        rewards.add(Reward(90000,90000, "Amazon 1000 Dollar Gift Card"))
-        rewards.add(Reward(1500,1500, "Reusable Water Bottle"))
-        rewards.add(Reward(300,300, "Metal Straw"))
-        rewards.add(Reward(250,50, "Donate A Tree"))
+        rewards.add(Reward(500, 500, "Amazon 5 Dollar Gift Card"))
+        rewards.add(Reward(90000, 90000, "Amazon 1000 Dollar Gift Card"))
+        rewards.add(Reward(1500, 1500, "Reusable Water Bottle"))
+        rewards.add(Reward(300, 300, "Metal Straw"))
+        rewards.add(Reward(250, 50, "Donate A Tree"))
         updateRewards(rewards)
         return rewards
     }
-    private fun createUsers(rewards: List<Reward>):List<User>{
+
+    private fun createUsers(rewards: List<Reward>): List<User> {
         // Creates template users for leaderboards.
-        var users =  mutableListOf<User>()
-        users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
-        users.add(User("Dick","Carson","DickC@unl.edu","Acting2019","2"))
+        val users = mutableListOf<User>()
+        users.add(User("Johnny", "Carson", "JohnnyC@unl.edu", "Acting2019", "1"))
+        users.add(User("Dick", "Carson", "DickC@unl.edu", "Acting2019", "2"))
         users[0].addFriend(users[1])
         users[0].redeemPrize(rewards[0])
         users[0].redeemPrize(rewards[1])
         users[0].redeemPrize(rewards[3])
-        users.add(User("Alexis","Maas","MaasA@unl.edu","Acting2019","3"))
+        users.add(User("Alexis", "Maas", "MaasA@unl.edu", "Acting2019", "3"))
         users[0].addRequest(users[2].getId())
         // This user wil be added as a friend when demoing
-        users.add(User("FriendFirstNameToAdd","MEEEEE","Faker@unl.edu","Acting2019","4"))
-        users.add(User("Johnny","Bikedaughter","JBikedaugher@unl.edu","Acting2019","5"))
+        users.add(User("FriendFirstNameToAdd", "MEEEEE", "Faker@unl.edu", "Acting2019", "4"))
+        users.add(User("Johnny", "Bikedaughter", "JBikedaugher@unl.edu", "Acting2019", "5"))
         users[0].addFriend(users[4])
         users[4].changePoints(14)
         users[1].changePoints(7)
@@ -97,27 +95,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun openMain() {
         // Open camera screen
         setContentView(R.layout.activity_main)
-
+        // Ask for permissions to use the camera
         if (allPermissionsGranted()) {
             textureView.post { startCamera() }
             textureView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
                 updateTransform()
             }
         } else {
-            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
+            ActivityCompat.requestPermissions(this, requiredPermission, requestPermission)
         }
-
+        // Set up the tensorflow model.
         tfLiteClassifier
             .initialize()
             .addOnSuccessListener { }
-            .addOnFailureListener { e -> Log.e(TAG, "Error in setting up the classifier.", e) }
+            .addOnFailureListener { e -> Log.e(tag, "Error in setting up the classifier.", e) }
 
-
-        var toolbar :Toolbar= findViewById(R.id.toolbar)
+        // Populates the side navigation and header.
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-        var drawerLayout:DrawerLayout = findViewById(R.id.drawer_layout)
-        var navView : NavigationView = findViewById(R.id.nav_view)
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val navView: NavigationView = findViewById(R.id.nav_view)
 
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar, R.string.app_name, 0
@@ -128,36 +125,37 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         invalidateOptionsMenu()
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) : Boolean {
+    @SuppressLint("SetTextI18n")
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         try {
-            var item: MenuItem = menu.findItem(R.id.nav_profile)
+            val item: MenuItem = menu.findItem(R.id.nav_profile)
             // Check if user is signed in and if so add their name to the text.
             // If not then state not logged in.
-            var nameNavText: TextView = findViewById(R.id.nameNav)
-            var pointsNavText: TextView = findViewById(R.id.pointsNav)
-            var user = getSignedInUser()
+            val nameNavText: TextView = findViewById(R.id.nameNav)
+            val pointsNavText: TextView = findViewById(R.id.pointsNav)
+            val user = getSignedInUser()
             if (user.userIdentification !== "-1") {
                 // Add the user information near the nav drawer
                 nameNavText.text = "${user.firstName} ${user.lastName}"
                 pointsNavText.text = "Points: ${user.points}"
                 // Change the text of the profile log in item based on whether or not signed in
-                item.setTitle("Profile")
+                item.title = "Profile"
             } else {
                 // State not logged in
                 nameNavText.text = "Not signed in"
                 pointsNavText.text = "Sign in to save your storage"
                 // Change the text of the profile log in item based on whether or not signed in
-                item.setTitle("Log In or Register")
+                item.title = "Log In or Register"
             }
-        }catch (e:Exception){
-
+        } catch (e: Exception) {
         }
-  return super.onPrepareOptionsMenu(menu);
-}
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Add selections for on-click events from the drop-down menu.
-        var drawerLayout:DrawerLayout = findViewById(R.id.drawer_layout)
-
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        // Allow the items in side nav to link to their respective locations.
         when (item.itemId) {
             R.id.nav_profile -> {
                 Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show()
@@ -175,7 +173,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Toast.makeText(this, "Rewards clicked", Toast.LENGTH_SHORT).show()
                 openRewards()
             }
-          R.id.nav_guide -> {
+            R.id.nav_guide -> {
                 Toast.makeText(this, "Guide clicked", Toast.LENGTH_SHORT).show()
                 openGuide()
             }
@@ -183,7 +181,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
-
 
     private fun startCamera() {
         // Basic camera screen configuration.
@@ -205,7 +202,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             updateTransform()
         }
 
-
         val analyzerConfig = ImageAnalysisConfig.Builder().apply {
             // Use a worker thread for image analysis to prevent glitches
             val analyzerThread = HandlerThread("AnalysisThread").apply {
@@ -217,97 +213,119 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val analyzerUseCase = ImageAnalysis(analyzerConfig)
         analyzerUseCase.analyzer =
-            ImageAnalysis.Analyzer { image: ImageProxy, rotationDegrees: Int ->
+            ImageAnalysis.Analyzer { image: ImageProxy, _: Int ->
 
                 val bitmap = image.toBitmap()
 
                 tfLiteClassifier
                     .classifyAsync(bitmap)
-                    .addOnSuccessListener { resultText ->checkResult(resultText.toString())}
-                    .addOnFailureListener { error -> Log.e("IMAGE ERROR",error.toString())}
+                    .addOnSuccessListener { resultText -> checkResult(resultText.toString()) }
+                    .addOnFailureListener { error -> Log.e("IMAGE ERROR", error.toString()) }
 
             }
+        // Starts the camera
         CameraX.bindToLifecycle(this, preview, analyzerUseCase)
     }
 
-    fun checkResult(resultText: String){
+    private fun checkResult(resultText: String) {
         // Check to see if the object captured by the camera is recyclable.
-        val predictedTextView = findViewById(R.id.predictedTextView) as TextView
-        predictedTextView.text=resultText
+        val predictedTextView = findViewById<TextView>(R.id.predictedTextView)
+        predictedTextView.text = resultText
         var resultNumber = resultText.split(".")[1]
-        resultNumber = "."+resultNumber
-        var floatResults = resultNumber.toFloat()
+        resultNumber = ".$resultNumber"
+        val floatResults = resultNumber.toFloat()
         // Note .8 is a magic number representing the odds of it being correct are over 80%
-        if(floatResults>=.8){
+        if (floatResults >= .8) {
             // Check if on recyclable list
             val remainder = resultText.split("\n")[0].substring(14)
-            if(isTermOnRecycleList(remainder)){
+            if (isTermOnRecycleList(remainder)) {
                 // Pause camera and create builder dialog.
                 CameraX.unbindAll()
-                val builder = AlertDialog.Builder(this)
+                val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
                 builder.setTitle("Recycle?")
-                builder.setMessage("Would you like to recycle the ${remainder} for one point?")
-                //builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
-
-                builder.setPositiveButton(android.R.string.yes) { dialog, which ->
-                    var user = getSignedInUser()
+                builder.setMessage("Would you like to recycle the $remainder for one point?")
+                // The user decides to recycle it
+                builder.setPositiveButton(android.R.string.yes) { dialog, _ ->
+                    // Check if the user is signed in
+                    val user = getSignedInUser()
                     if (user.userIdentification !== "-1") {
-
-                        Toast.makeText(applicationContext,
-                            "Recycled. You got one point!", Toast.LENGTH_SHORT).show()
+                        // The user is signed in so recycle the item(add a point)
+                        Toast.makeText(
+                            applicationContext,
+                            "Recycled. You got one point!", Toast.LENGTH_SHORT
+                        ).show()
                         recycleItem(user)
+                        // Restart the camera
                         startCamera()
-                    }else{
-                        Toast.makeText(applicationContext,
-                            "You need to log in first!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        // Because the user is not signed in we send them to the log in page.
+                        Toast.makeText(
+                            applicationContext,
+                            "You need to log in first!", Toast.LENGTH_SHORT
+                        ).show()
                         openLogIn()
-
                     }
                     dialog.dismiss()
-
                 }
-
-                builder.setNegativeButton(android.R.string.no) { dialog, which ->
+                // They do not want to recycle it so restart the camera and proceed scanning
+                builder.setNegativeButton(android.R.string.no) { dialog, _ ->
                     startCamera()
                     dialog.dismiss()
-
                 }
-
+                // Show the popup because we are 80% certain the item is recyclable
                 builder.show()
-
             }
         }
     }
-    fun recycleItem(signedInUser:User){
+
+    private fun recycleItem(signedInUser: User) {
         signedInUser.changePoints(1)
         // Save user and save list of users.
         updateActiveUser(signedInUser)
 
     }
-    fun updateActiveUser(activeUser:User){
+
+    private fun updateActiveUser(activeUser: User) {
+        // Update the user after they recycled.
         val users = getUsers()
-        for (user in users){
-            if(user.email==activeUser.email){
-                user.points=activeUser.points
+        for (user in users) {
+            if (user.email == activeUser.email) {
+                user.points = activeUser.points
                 updateUser(activeUser)
                 updateUsers(users)
                 return
             }
         }
+    }
+
+    private fun getUsers(): MutableList<User> {
+        // Get the list of all users.
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(
+            sharedPrefFile,
+            Context.MODE_PRIVATE
+        )
+        val userJson = sharedPreferences.getString("users_key", "{}")
+        return Gson().fromJson(userJson, Array<User>::class.java).toMutableList()
+    }
+
+    private fun updateUser(activeUser: User) {
+        // Save the active user to shared preferences.
+        val sharedPreferences: SharedPreferences =
+            this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        val usersJson = Gson().toJson(activeUser)
+        editor.putString("active_user_key", usersJson)
+        editor.commit()
 
     }
-    fun updateUser(activeUser:User){
-            val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-            val editor: SharedPreferences.Editor =  sharedPreferences.edit()
-            val usersJson = Gson().toJson(activeUser)
-            editor.putString("active_user_key",usersJson)
-            editor.commit()
 
-    }
-    fun isTermOnRecycleList(term: String):Boolean{
+    private fun isTermOnRecycleList(term: String): Boolean {
+        // Check if the list of recyclable items contains the term.
         return recyclableItems.contains(term)
     }
-    fun ImageProxy.toBitmap(): Bitmap {
+
+    private fun ImageProxy.toBitmap(): Bitmap {
+        // Convert the image for image recognition through tensorflow.
         val yBuffer = planes[0].buffer // Y
         val uBuffer = planes[1].buffer // U
         val vBuffer = planes[2].buffer // V
@@ -330,6 +348,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun updateTransform() {
+        // Convert the image for image recognition through tensorflow.
         val matrix = Matrix()
         val centerX = textureView.width / 2f
         val centerY = textureView.height / 2f
@@ -344,60 +363,70 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         matrix.postRotate(-rotationDegrees.toFloat(), centerX, centerY)
         textureView.setTransform(matrix)
     }
-    private fun openProfile(){
-        // Check if logged in.
-        var user = getSignedInUser()
-        var loggedIn= user.getId() != "-1"
-        if(loggedIn){
-                openProfileConfirmed()
-            }else {
+
+    private fun openProfile() {
+        // Check if the user is logged in.
+        val user = getSignedInUser()
+        val loggedIn = user.getId() != "-1"
+        if (loggedIn) {
+            // They are logged in so open their profile.
+            openProfileConfirmed()
+        } else {
+            //They are not logged in so open the log in page.
             openLogIn()
         }
     }
-    private fun openProfileConfirmed(){
+
+    private fun openProfileConfirmed() {
+        // Open the users profile screen.
         val intent = Intent(this, ProfileActivity::class.java)
         // start your next activity
         startActivity(intent)
     }
-    private fun openLogIn(){
+
+    private fun openLogIn() {
+        // Open the log in screen.
         val intent = Intent(this, LogInActivity::class.java)
         // Start your next activity.
         startActivity(intent)
     }
-//  >>> Potential addition of Manual Entries <<<
-//
-//    private fun openView() {
-//        val intent = Intent(this, View::class.java)
-//        // start your next activity
-//        startActivity(intent)
-//    }
+
     private fun openMap() {
-        val intent = Intent(this, MapsActivity::class.java)
-        // Start your next activity.
+        // Open the map.
+        val intent = Intent(this, MapActivity::class.java)
+        // Start your next activity
         startActivity(intent)
     }
+
     private fun openLeaderboard() {
+        // Open the leaderboard.
         val intent = Intent(this, LeaderboardsAndFriendsActivity::class.java)
         // Start your next activity.
         startActivity(intent)
     }
-    private fun openRewards(){
+
+    private fun openRewards() {
+        // Open the rewards redemption screen.
         val intent = Intent(this, RewardsActivity::class.java)
         // Start your next activity.
         startActivity(intent)
     }
-    private fun openGuide(){
+
+
+    private fun openGuide() {
+        // Open the guide screen.
         val intent = Intent(this, GuideActivity::class.java)
         // Start your next activity.
         startActivity(intent)
     }
+
+    // Check if the permissions for the camera were granted or denied.
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
         grantResults: IntArray
     ) {
-
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+        if (requestCode == requestPermission) {
             if (allPermissionsGranted()) {
                 startCamera()
             } else {
@@ -408,9 +437,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    // Prepare app because permissions were granted.
     private fun allPermissionsGranted(): Boolean {
-
-        for (permission in REQUIRED_PERMISSIONS) {
+        for (permission in requiredPermission) {
             if (ContextCompat.checkSelfPermission(
                     this,
                     permission
@@ -421,50 +450,45 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         return true
     }
-    fun updateRewards(rewards:List<Reward>){
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+
+    // Save the rewards to shared prefernces.
+    private fun updateRewards(rewards: List<Reward>) {
+        val sharedPreferences: SharedPreferences =
+            this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
         val rewardsJson = Gson().toJson(rewards)
-        Log.e("here",rewardsJson)
-        editor.putString("rewards_key",rewardsJson)
-        editor.commit()
+        Log.e("here", rewardsJson)
+        editor.putString("rewards_key", rewardsJson)
+        editor.apply()
     }
-    fun getRewards():List<Reward>{
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-        val rewardsJson = sharedPreferences.getString("rewards_key","[]")
-        val rewardList:  List<Reward> = Gson().fromJson(rewardsJson, Array<Reward>::class.java).toList()
-        return rewardList
-    }
-    fun updateUsers(users:List<User>){
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+
+    // Update the list of all users.
+    private fun updateUsers(users: List<User>) {
+        val sharedPreferences: SharedPreferences =
+            this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
         val usersJson = Gson().toJson(users)
-        editor.putString("users_key",usersJson)
-        editor.commit()
+        editor.putString("users_key", usersJson)
+        editor.apply()
 
     }
-    fun getUsers():List<User>{
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-        val userJson = sharedPreferences.getString("users_key","[]")
-        val userList:  MutableList<User> = Gson().fromJson(userJson, Array<User>::class.java).toMutableList()
-        return userList
-    }
-    fun getSignedInUser(): User{
-        try {
+
+    private fun getSignedInUser(): User {
+        // If a user is signed in then return them.
+        return try {
             val sharedPreferences: SharedPreferences =
                 this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
             val userJson = sharedPreferences.getString("active_user_key", "[]")
             val user: User = Gson().fromJson(userJson, User::class.java)
-            return user
-        }
-        catch (ex:Exception){
-            return User("Not","Found","HashshlingingSlasher@gmail.com","Dracula","-1")
+            user
+        } catch (ex: Exception) {
+            User("Not", "Found", "HashshlingingSlasher@gmail.com", "Dracula", "-1")
         }
     }
 
     override fun onDestroy() {
+        // Close the image classification model.
         tfLiteClassifier.close()
         super.onDestroy()
     }
-
 }

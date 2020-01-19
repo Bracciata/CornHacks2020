@@ -30,11 +30,8 @@
                     android:layout_height="wrap_content"
                     android:text="Map"
                     android:textColor="#FFFFFF" />
-
-
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
-
     </com.google.android.material.appbar.AppBarLayout>
 <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -42,5 +39,4 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapsActivity"/>
-</RelativeLayout>
+    tools:context=".MapActivity" />

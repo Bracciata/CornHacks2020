@@ -8,7 +8,6 @@ import androidx.appcompat.widget.Toolbar
 
 class GuideActivity : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guide)

@@ -36,7 +36,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="ScrapShot"
-                        android:textColor="#FFFFFF" />
+                        android:textColor="#FFFFFF"
+                        tools:ignore="HardcodedText" />
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
 
