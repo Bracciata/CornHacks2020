@@ -61,6 +61,7 @@ class ProfileActivity : AppCompatActivity() {
             val editor: SharedPreferences.Editor =  sharedPreferences.edit()
             val emptyUser = "{}"
             editor.putString("active_user_key", emptyUser)
+            editor.commit()
         returnToMain()
 
     }
