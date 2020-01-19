@@ -47,6 +47,7 @@ class LogInActivity : AppCompatActivity() {
         val editor: SharedPreferences.Editor =  sharedPreferences.edit()
         val usersJson = Gson().toJson(userFound)
         editor.putString("active_user_key",usersJson)
+        editor.commit()
     }
     private fun attemptSignIn(listOfUsers:List<User>){
         val emailEditText = findViewById(R.id.userEmailEditText) as EditText
@@ -76,7 +77,7 @@ class LogInActivity : AppCompatActivity() {
     }
 
     private fun openProfile(){
-        // Upon success sign in in open the profile.
+        // Upon success signing in open the profile.
         val intent = Intent(this, ProfileActivity::class.java)
         // start your next activity
         startActivity(intent)

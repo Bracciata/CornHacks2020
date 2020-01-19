@@ -3,19 +3,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_profile"
-            android:icon="@mipmap/ic_launcher_round"
+            android:icon="@drawable/profile"
             android:title="Profile" />
         <item
             android:id="@+id/nav_map"
-            android:icon="@mipmap/ic_launcher_round"
-            android:title="Wallet" />
+            android:icon="@drawable/black_map"
+            android:title="Map" />
         <item
             android:id="@+id/nav_leaderboards"
-            android:icon="@mipmap/ic_launcher_round"
-            android:title="Offers" />
+            android:icon="@drawable/leaderboards"
+            android:title="Leaderboards" />
         <item
             android:id="@+id/nav_rewards"
-            android:icon="@mipmap/ic_launcher_round"
-            android:title="Setting" />
+            android:icon="@drawable/rewards"
+            android:title="Rewards" />
     </group>
 </menu>
