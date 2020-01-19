@@ -76,7 +76,7 @@ class LogInActivity : AppCompatActivity() {
     }
 
     private fun openProfile(){
-        // Upon success sign in in open the profile.
+        // Upon success signing in open the profile.
         val intent = Intent(this, ProfileActivity::class.java)
         // start your next activity
         startActivity(intent)
