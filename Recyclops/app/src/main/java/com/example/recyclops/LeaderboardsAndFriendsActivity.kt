@@ -7,11 +7,13 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_leaderboard_friends.*
 
 class LeaderboardsAndFriendsActivity : AppCompatActivity() {
     private val sharedPrefFile = "kotlinsharedpreference"
@@ -44,14 +46,18 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
     }
     private fun populateLeaderboard(activeUser: User){
         var friends = activeUser.friends
+        Log.e("HERE",friends[0].firstName)
         friends.sortedBy { friend -> friend.totalPoints }
+        friends.reverse()
         // Populate in list view.
         var stringsForLeaderboard: MutableList<String> = mutableListOf()
         var count: Int = 1
         for(friend in friends){
-            stringsForLeaderboard.add("${count}. ${friend.firstName} ${friend.lastName}(Total points: ${friend.totalPoints}")
+            Log.e("Hey","TOMMYS")
+            stringsForLeaderboard.add("${count}. ${friend.firstName} ${friend.lastName}(Total points: ${friend.totalPoints})")
+            count += 1
         }
-        val layout = findViewById(R.id.requestLayout) as RelativeLayout
+        val layout = findViewById(R.id.leaderboard_layout) as RelativeLayout
         val listView = ListView(this)
         listView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,
             stringsForLeaderboard) as ListAdapter?
@@ -74,7 +80,8 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
                 saveListOfUsers(activeUser)
 
                 dialog.dismiss()
-
+                // Reload leader board and friends
+                reload()
             }
 
             builder.setNegativeButton(android.R.string.no) { dialog, which ->
@@ -90,6 +97,11 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
             builder.show()
 
         }
+    }
+    private fun reload(){
+        val intent = Intent(this, LeaderboardsAndFriendsActivity::class.java)
+        // start your next activity
+        startActivity(intent)
     }
     fun getUsers():List<User>{
         val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
@@ -167,6 +179,7 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
                         // Update list of users and save.
                         saveSignedOnUser(activeUser)
                         saveListOfUsers(activeUser)
+                reload()
 
                 dialog.dismiss()
 
@@ -179,6 +192,7 @@ class LeaderboardsAndFriendsActivity : AppCompatActivity() {
                 "Removed request from ${requestToFocus}", Toast.LENGTH_SHORT
                 ).show()
                 dialog.dismiss()
+                reload()
 
             }
             builder.setNeutralButton("Cancel") { dialog, which ->
