@@ -15,7 +15,6 @@ import com.google.gson.Gson
 class ProfileActivity : AppCompatActivity() {
     private val sharedPrefFile = "kotlinsharedpreference"
 
-    // TODO: Add back button
     // TODO: add log out button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +31,11 @@ class ProfileActivity : AppCompatActivity() {
         val activeUser:User = getSignedInUser()
         populateUserInformation(activeUser)
         populateRewardsRedemptionHistory(activeUser)
+        val logOutButton = findViewById(R.id.logoutButton) as Button
+        // set on-click listener
+        logOutButton.setOnClickListener {
+            logout()
+        }
     }
     // actions on click menu items
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
@@ -61,11 +65,11 @@ class ProfileActivity : AppCompatActivity() {
 
     fun logout(){
         // Reset signed in user and open main.
-            val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
-            val editor: SharedPreferences.Editor =  sharedPreferences.edit()
-            val emptyUser = "{}"
-            editor.putString("active_user_key", emptyUser)
-            editor.commit()
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+        val emptyUser = "{}"
+        editor.putString("active_user_key", emptyUser)
+        editor.commit()
         returnToMain()
 
     }
