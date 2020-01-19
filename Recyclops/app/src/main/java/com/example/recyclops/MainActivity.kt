@@ -283,7 +283,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun recycleItem(signedInUser:User){
         signedInUser.changePoints(1)
         // Save user and save list of users.
-        // TODO: Above
+        updateActiveUser(signedInUser)
+
+    }
+    fun updateActiveUser(activeUser:User){
+        val users = getUsers()
+        for (user in users){
+            if(user.email==activeUser.email){
+                user.points=activeUser.points
+                updateUser(activeUser)
+                updateUsers(users)
+                return
+            }
+        }
+
+    }
+    fun updateUser(activeUser:User){
+            val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)
+            val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+            val usersJson = Gson().toJson(activeUser)
+            editor.putString("active_user_key",usersJson)
+            editor.commit()
+
     }
     fun isTermOnRecycleList(term: String):Boolean{
         return recyclableItems.contains(term)
