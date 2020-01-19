@@ -329,7 +329,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun openMap() {
-        val intent = Intent(this, MapsActivity::class.java)
+        val intent = Intent(this, MapActivity::class.java)
         // start your next activity
         startActivity(intent)
     }
