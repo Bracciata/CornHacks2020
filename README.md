@@ -38,7 +38,7 @@ When opening the application you see a disclaimer on recycling:
 ![Image of guidelines to recycling](https://github.com/Bracciata/CornHacks2020/blob/master/Demo/IMG_0207.jpg "Disclaimer Image")
 
 After that the camera classification model opens and if it recognizes a recyclable item it offers you to recycle it for points: 
-![Image of Mountain Dew bottle with a pop up offering you to recycle it](https://github.com/Bracciata/CornHacks2020/blob/master/Demo/IMG_0207.jpg "Recycle Pop Up Image")
+![Image of Mountain Dew bottle with a pop up offering you to recycle it](https://github.com/Bracciata/CornHacks2020/blob/master/Demo/IMG_0207.jpg =250x "Recycle Pop Up Image")
 
 In order to get points you will need to have a profile like the one shown: 
 ![Image of the profile screen with general information about the user and their redemption history.](https://github.com/Bracciata/CornHacks2020/blob/master/Demo/IMG_0209.jpg "User Profile Image")
