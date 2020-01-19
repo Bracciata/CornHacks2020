@@ -15,7 +15,6 @@ import com.google.gson.Gson
 class ProfileActivity : AppCompatActivity() {
     private val sharedPrefFile = "kotlinsharedpreference"
 
-    // TODO: Add back button
     // TODO: add log out button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
