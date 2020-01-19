@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val users = createUsers(rewards)
     }
     private fun createRewards():List<Reward>{
+        // Creates template reward items.
         var rewards =  mutableListOf<Reward>()
         // If sale price is equal to price or greater than it is considered not on sale.
         rewards.add(Reward(500,500, "Amazon 5 Dollar Gift Card"))
@@ -67,11 +68,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         rewards.add(Reward(300,300, "Metal Straw"))
         rewards.add(Reward(250,50, "Donate A Tree"))
         updateRewards(rewards)
-        val rewardsTwo = getRewards()
-        Log.e(rewardsTwo[1].title,"TOMMY")
         return rewards
     }
     private fun createUsers(rewards: List<Reward>):List<User>{
+        // Creates template users for leaderboards.
         var users =  mutableListOf<User>()
         users.add(User("Johnny","Carson","JohnnyC@unl.edu","Acting2019","1"))
         users.add(User("Dick","Carson","DickC@unl.edu","Acting2019","2"))
@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
   return super.onPrepareOptionsMenu(menu);
 }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // TODO: Update this
+        // Add selections for on-click events from the drop-down menu.
         var drawerLayout:DrawerLayout = findViewById(R.id.drawer_layout)
 
         when (item.itemId) {
@@ -180,7 +180,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Toast.makeText(this, "Rewards clicked", Toast.LENGTH_SHORT).show()
                 openRewards()
             }
-           R.id.nav_guide -> {
+          R.id.nav_guide -> {
                 Toast.makeText(this, "Guide clicked", Toast.LENGTH_SHORT).show()
                 openGuide()
             }
@@ -191,6 +191,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     private fun startCamera() {
+        // Basic camera screen configuration.
         val metrics = DisplayMetrics().also { textureView.display.getRealMetrics(it) }
         val screenSize = Size(metrics.widthPixels, metrics.heightPixels)
         val screenAspectRatio = Rational(1, 1)
@@ -235,6 +236,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun checkResult(resultText: String){
+        // Check to see if the object captured by the camera is recyclable.
         val predictedTextView = findViewById(R.id.predictedTextView) as TextView
         predictedTextView.text=resultText
         var resultNumber = resultText.split(".")[1]
@@ -348,7 +350,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         textureView.setTransform(matrix)
     }
     private fun openProfile(){
-        // Check if logged in
+        // Check if logged in.
         var user = getSignedInUser()
         var loggedIn= user.getId() != "-1"
         if(loggedIn){
@@ -364,7 +366,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     private fun openLogIn(){
         val intent = Intent(this, LogInActivity::class.java)
-        // start your next activity
+        // Start your next activity.
         startActivity(intent)
     }
 //  >>> Potential addition of Manual Entries <<<
@@ -376,22 +378,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //    }
     private fun openMap() {
         val intent = Intent(this, MapsActivity::class.java)
-        // start your next activity
+        // Start your next activity.
         startActivity(intent)
     }
     private fun openLeaderboard() {
         val intent = Intent(this, LeaderboardsAndFriendsActivity::class.java)
-        // start your next activity
+        // Start your next activity.
         startActivity(intent)
     }
     private fun openRewards(){
         val intent = Intent(this, RewardsActivity::class.java)
-        // start your next activity
+        // Start your next activity.
         startActivity(intent)
     }
     private fun openGuide(){
         val intent = Intent(this, GuideActivity::class.java)
-        // start your next activity
+        // Start your next activity.
         startActivity(intent)
     }
     override fun onRequestPermissionsResult(
