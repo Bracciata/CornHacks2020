@@ -1,6 +1,6 @@
 # ScrapShot
 
-#### Winner of the Green Track at Corn Hacks 2020
+### Winner of the Green Track at Corn Hacks 2020
 
 ##### Created by Tommy Braccia, Danny Tran, Erik Skoog, and Emma Hubka
 
